@@ -1,6 +1,8 @@
 package com.lycoon.clashapi.cocmodels.player;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -36,10 +38,6 @@ public class Player
 	@SerializedName("townHallWeaponLevel")
 	@Expose
 	private Integer townHallWeaponLevel;
-	
-	@SerializedName("versusBattleWins")
-	@Expose
-	private Integer versusBattleWins;
 	
 	@SerializedName("legendStatistics")
 	@Expose
@@ -192,19 +190,9 @@ public class Player
 	{
 		return townHallWeaponLevel;
 	}
-	
-	/**
-	 * Returns the number of won attacks in the builder base.
-	 * 
-	 * @return an integer corresponding to the number of won attacks in the builder base
-	 */
-	public Integer getVersusBattleWins()
-	{
-		return versusBattleWins;
-	}
 
 	/**
-	 * Returns a set of season data<br>
+	 * Returns a set of season data.
 	 * 
 	 * @return a <code>LegendStatistics</code> object gathering scores of player's seasons
 	 * @see Season
@@ -215,7 +203,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the troops the player has<br>
+	 * Returns all the troops the player has.
 	 * 
 	 * @return a <code>List</code> containing all the troops the player unlocked
 	 * @see Troop
@@ -226,7 +214,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the heroes the player has<br>
+	 * Returns all the heroes the player has.
 	 * 
 	 * @return a <code>List</code> containing all the heroes the player unlocked
 	 * @see Troop
@@ -237,7 +225,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the spells the player has<br>
+	 * Returns all the spells the player has.
 	 * 
 	 * @return a <code>List</code> containing all the spells the player unlocked
 	 * @see Troop
@@ -248,7 +236,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the labels the player has on its profile<br>
+	 * Returns the labels the player has on its profile.
 	 * 
 	 * @return a <code>List</code> containing the labels displayed on the player's profile
 	 * @see Label
@@ -259,9 +247,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns the tag of the player.<br>
-	 * The tag is a unique identifier each player has, in the form of #A0B1C2.<br>
-	 * It appears on your profile under your nickname.
+	 * Returns the tag of the player.<br><br>
+	 * The tag is a unique identifier each player has, in the form of #AAAA00.<br>
+	 * It is displayed under the nickname on player's profile.
 	 * 
 	 * @return a <code>String</code> containing the player's tag
 	 */
@@ -282,7 +270,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the current experience level of the player.<br>
+	 * Returns the current experience level of the player.
 	 * 
 	 * @return an integer corresponding to the current experience level of the player
 	 */
@@ -292,7 +280,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the current number of trophies of the player.<br>
+	 * Returns the current number of trophies of the player.
 	 * 
 	 * @return an integer corresponding to the current number of trophies of the player
 	 */
@@ -302,7 +290,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the highest number of trophies the player had.<br>
+	 * Returns the highest number of trophies the player had.
 	 * 
 	 * @return an integer corresponding to the highest number of trophies the player had
 	 */
@@ -312,7 +300,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of donations the player did in its clan during the season.<br>
+	 * Returns the number of donations the player did in its clan during the season.
 	 * 
 	 * @return an integer corresponding to the number of donations the player did in its clan during the season
 	 */
@@ -322,7 +310,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of donations the player received in its clan during the season.<br>
+	 * Returns the number of donations the player received in its clan during the season.
 	 * 
 	 * @return an integer corresponding to the number of donations the player received in its clan during the season
 	 */
@@ -343,11 +331,11 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of trophies earned in the main village of the player.<br>
+	 * Returns the number of trophies earned in the main village of the player.
 	 * 
 	 * @return an integer corresponding to the number of trophies earned in the main village of the player
 	 */
-	public Integer getVersusTrophies()
+	public Integer getBuilderBaseTrophies()
 	{
 		return versusTrophies;
 	}
@@ -357,13 +345,13 @@ public class Player
 	 * 
 	 * @return an integer corresponding to the highest number of trophies the player had in the builder base
 	 */
-	public Integer getBestVersusTrophies()
+	public Integer getBuilderBaseBestTrophies()
 	{
 		return bestVersusTrophies;
 	}
 	
 	/**
-	 * Returns a number corresponding to the total number of stars earned in clan wars
+	 * Returns a number corresponding to the total number of stars earned in clan wars.
 	 * 
 	 * @return an integer corresponding to the total number of stars earned in clan wars
 	 */
@@ -373,7 +361,7 @@ public class Player
 	}
 	
 	/**
-	 * Returns the achievements of the player<br>
+	 * Returns the achievements of the player.<br>
 	 * 
 	 * @return a <code>List</code> containing <code>Achievement</code> objects holding achievements of the player
 	 * @see Achievement
@@ -388,8 +376,18 @@ public class Player
 	 * 
 	 * @return an integer corresponding to the number of won battles in the builder base
 	 */
-	public Integer getVersusBattleWinCount()
+	public Integer getBuilderBaseWinCount()
 	{
 		return versusBattleWinCount;
+	}
+	
+	@Override
+	public String toString()
+	{
+		NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+		return "[" +name+ " " +tag+ "] Level " +expLevel+ " | Townhall " +townHallLevel+ " | Builer hall " +builderHallLevel+ "\n"
+				+ "   ├ [Village] Best trophies: " +nf.format(bestTrophies)+ " | Currently " +nf.format(trophies)+ " trophies\n"
+				+ "   ├ [Builder base] Best trophies: " +nf.format(bestVersusTrophies)+ " | Currently " +nf.format(versusTrophies)+ " trophies\n"
+				+ "   └ " +warStars+ " war stars | " +donations+ " donations | " +donationsReceived+ " received donations";
 	}
 }

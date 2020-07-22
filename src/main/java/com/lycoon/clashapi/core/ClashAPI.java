@@ -43,25 +43,57 @@ public class ClashAPI
 		Response res = http.newCall(buildReq(url)).execute();
 		
 		if (!res.isSuccessful())
-			throw new IOException("[ClashAPI] Failed fetching data " + res);
+			throw new IOException("[ClashAPI] Failed fetching data: " + res.code() + " " +res.message());
 		return res;
 	}
 	
+	private String formatTag(String tag)
+	{
+		return tag.replace("#", "%23");
+	}
+	
+	/**
+	 * Returns the player attached to the tag.<br><br>
+	 * The tag is a unique identifier each player has, in the form of #AAAA00.<br>
+	 * It is displayed under the nickname on player's profile.
+	 * 
+	 * @param playerTag - <code>String</code> of the player's tag
+	 * @return a <code>Player</code> object
+	 * @throws IOException
+	 */
 	public Player getPlayer(String playerTag) throws IOException
 	{
-		Response res = makeAPICall("players/" +playerTag);
+		Response res = makeAPICall("players/" +formatTag(playerTag));
 		return gson.fromJson(res.body().string(), Player.class);
 	}
 	
+	/**
+	 * Returns the clan attached to the tag.<br><br>
+	 * The tag is a unique identifier each clan has, in the form of #AAAA00.<br>
+	 * It is displayed under the clan name on clan's profile.
+	 * 
+	 * @param clanTag - <code>String</code> of the clan's tag
+	 * @return a <code>ClanModel</code> object
+	 * @throws IOException
+	 */
 	public ClanModel getClan(String clanTag) throws IOException
 	{
-		Response res = makeAPICall("clans/" +clanTag);
+		Response res = makeAPICall("clans/" +formatTag(clanTag));
 		return gson.fromJson(res.body().string(), ClanModel.class);
 	}
 	
+	/**
+	 * Returns the clan war occurring in the clan with the given tag.<br><br>
+	 * The tag is a unique identifier each clan has, in the form of #AAAA00.<br>
+	 * It is displayed under the clan name on clan's profile.
+	 * 
+	 * @param clanTag - <code>String</code> of the clan's tag
+	 * @return a <code>ClanWarInfo</code> object
+	 * @throws IOException
+	 */
 	public ClanWarInfo getCurrentWar(String clanTag) throws IOException
 	{
-		Response res = makeAPICall("clans/" +clanTag+ "/currentWar");
+		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentWar");
 		return gson.fromJson(res.body().string(), ClanWarInfo.class);
 	}
     

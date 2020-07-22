@@ -1,5 +1,8 @@
 package com.lycoon.clashapi.cocmodels.player;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -66,5 +69,14 @@ public class Achievement
 	public String getVillage()
 	{
 		return village;
+	}
+	
+	@Override
+	public String toString()
+	{
+		NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+		return "[" +name+ "] " +info+ "\n"
+				+ "  ├ " +nf.format(value)+ " / " +nf.format(target)+ " with " +stars+ " stars in " +village+ " village\n"
+				+ "  └ " +completionInfo;
 	}
 }
