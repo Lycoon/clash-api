@@ -7,10 +7,8 @@ ClashAPI is a very simple yet very complete Java wrapper for the Clash of Clans 
 // 1. Create an instance of ClashAPI by providing your Clash of Clans API token to the constructor
 ClashAPI clashAPI = new ClashAPI("token");
 
-// 2. And do the requests you need
+// 2. And do the requests you need... Yes, it's as simple :)
 Player player = clashAPI.getPlayer("#AAAA00");
-
-// Yes, it's as simple :)
 ```
 
 ## What's the token?
