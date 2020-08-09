@@ -1,6 +1,6 @@
 ![ClashAPI logo](/src/main/resources/logo.png)
 
-ClashAPI is a very simple yet very complete Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do request to the game API without bothering about JSON handling.
+ClashAPI is a very simple yet very complete Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
 
 ## How does it work?
 I analyzed JSON responses from the Clash of Clans API to recreate the models as Java structures so you don't have to deal with deserialization and data categorization each time. You can therefore simply access game data through classes and methods, all documented!
@@ -28,5 +28,5 @@ Though this token is linked to the IP address you gave, I would advise **not to 
 * GSON `2.8.6`
 * OkHttp `4.8.0`
 
-
+## Disclaimer
 *This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy: www.supercell.com/fan-content-policy.*

@@ -2,6 +2,7 @@ package com.lycoon.clashapi.cocmodels.clan;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.lycoon.clashapi.cocmodels.player.League;
 
 public class ClanMember
 {
@@ -23,7 +24,7 @@ public class ClanMember
 	
 	@SerializedName("league")
 	@Expose
-	private Label league;
+	private League league;
 	
 	@SerializedName("trophies")
 	@Expose
@@ -69,7 +70,7 @@ public class ClanMember
 		return expLevel;
 	}
 
-	public Label getLeague()
+	public League getLeague()
 	{
 		return league;
 	}

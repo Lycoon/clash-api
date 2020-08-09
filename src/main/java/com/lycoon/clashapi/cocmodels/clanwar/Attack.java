@@ -23,7 +23,7 @@ public class Attack
 	
 	@SerializedName("destructionPercentage")
 	@Expose
-	private Integer destructionPercentage;
+	private Double destructionPercentage;
 
 	public Integer getOrder()
 	{
@@ -45,7 +45,7 @@ public class Attack
 		return stars;
 	}
 
-	public Integer getDestructionPercentage()
+	public Double getDestructionPercentage()
 	{
 		return destructionPercentage;
 	}

@@ -16,17 +16,32 @@ public class Season
 	@SerializedName("rank")
 	@Expose
 	private Integer rank;
-
+	
+	/**
+	 * Returns the number of trophies the player had for this season.
+	 * 
+	 * @return an integer
+	 */
 	public Integer getTrophies()
 	{
 		return trophies;
 	}
-
+	
+	/**
+	 * Returns the id of the season.
+	 * 
+	 * @return a <code>String</code>
+	 */
 	public String getId()
 	{
 		return id;
 	}
-
+	
+	/**
+	 * Returns the rank of the player for this season.
+	 * 
+	 * @return an integer
+	 */
 	public Integer getRank()
 	{
 		return rank;

@@ -7,13 +7,19 @@ import java.nio.file.Paths;
 
 import com.google.gson.Gson;
 import com.lycoon.clashapi.cocmodels.clan.ClanModel;
-import com.lycoon.clashapi.cocmodels.clanwar.ClanWarInfo;
+import com.lycoon.clashapi.cocmodels.clanwar.WarInfo;
+import com.lycoon.clashapi.cocmodels.clanwar.league.WarLeagueGroup;
 import com.lycoon.clashapi.cocmodels.player.Player;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Create an instance of this class to start using the API.<br>
+ * 
+ * Lost? Check the <a href="https://github.com/Lycoon/clash-api">README</a> to see what ClashAPI is all about.
+ */
 public class ClashAPI
 {
 	private final static String URL = "https://api.clashofclans.com/";
@@ -59,7 +65,8 @@ public class ClashAPI
 	 * 
 	 * @param playerTag - <code>String</code> of the player's tag
 	 * @return a <code>Player</code> object
-	 * @throws IOException
+	 * @see Player
+	 * @throws IOException if the request to the game API failed
 	 */
 	public Player getPlayer(String playerTag) throws IOException
 	{
@@ -74,7 +81,8 @@ public class ClashAPI
 	 * 
 	 * @param clanTag - <code>String</code> of the clan's tag
 	 * @return a <code>ClanModel</code> object
-	 * @throws IOException
+	 * @see ClanModel
+	 * @throws IOException if the request to the game API failed
 	 */
 	public ClanModel getClan(String clanTag) throws IOException
 	{
@@ -88,13 +96,46 @@ public class ClashAPI
 	 * It is displayed under the clan name on clan's profile.
 	 * 
 	 * @param clanTag - <code>String</code> of the clan's tag
-	 * @return a <code>ClanWarInfo</code> object
-	 * @throws IOException
+	 * @return a <code>WarInfo</code> object
+	 * @see WarInfo
+	 * @throws IOException if the request to the game API failed
 	 */
-	public ClanWarInfo getCurrentWar(String clanTag) throws IOException
+	public WarInfo getCurrentWar(String clanTag) throws IOException
 	{
-		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentWar");
-		return gson.fromJson(res.body().string(), ClanWarInfo.class);
+		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar");
+		return gson.fromJson(res.body().string(), WarInfo.class);
+	}
+	
+	/**
+	 * Returns the CWL group in which the clan with the given tag is.<br><br>
+	 * The tag is a unique identifier each clan has, in the form of #AAAA00.<br>
+	 * It is displayed under the clan name on clan's profile.
+	 * 
+	 * @param clanTag - <code>String</code> of the clan's tag
+	 * @return a <code>WarLeagueGroup</code> object
+	 * @see WarLeagueGroup
+	 * @throws IOException if the request to the game API failed
+	 */
+	public WarLeagueGroup getCWLGroup(String clanTag) throws IOException
+	{
+		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar/leaguegroup");
+		return gson.fromJson(res.body().string(), WarLeagueGroup.class);
+	}
+	
+	/**
+	 * Returns the individual CWL war associated to the given war tag.<br><br>
+	 * You can obtain individual CWL war tags from:<br>
+	 * <code>ClashAPI.getCWLGroup(clanTag).getRounds(index).getWarTags(index)</code>
+	 * 
+	 * @param warTag - <code>String</code> of the war tag
+	 * @return a <code>WarInfo</code> object
+	 * @see WarInfo
+	 * @throws IOException if the request to the game API failed
+	 */
+	public WarInfo getCWLWar(String warTag) throws IOException
+	{
+		Response res = makeAPICall("clanwarleagues/wars/" +formatTag(warTag));
+		return gson.fromJson(res.body().string(), WarInfo.class);
 	}
     
     // Returns data from a file

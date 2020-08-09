@@ -22,9 +22,9 @@ public class Troop
 	private String village;
 	
 	/**
-	 * Returns the current level of the concerned troop, spell or hero.
+	 * Returns the current level of the troop.
 	 * 
-	 * @return an integer corresponding to the level of the troop
+	 * @return an integer
 	 */
 	public Integer getLevel()
 	{
@@ -32,9 +32,9 @@ public class Troop
 	}
 
 	/**
-	 * Returns the name of the concerned troop, spell or hero.
+	 * Returns the name of the troop.
 	 * 
-	 * @return a string corresponding to the name of the troop
+	 * @return a <code>String</code>
 	 */
 	public String getName()
 	{
@@ -42,9 +42,9 @@ public class Troop
 	}
 	
 	/**
-	 * Returns the maximum level of upgrade in the game for the concerned troop, spell or hero.
+	 * Returns the maximum level of upgrade possible for the troop.
 	 * 
-	 * @return an integer corresponding to the maximum level of upgrade for the troop
+	 * @return an integer
 	 */
 	public Integer getMaxLevel()
 	{
@@ -52,10 +52,10 @@ public class Troop
 	}
 	
 	/**
-	 * Returns <code>home</code> if the troop is from the main village.<br>
-	 * Or returns <code>builderBase</code> if it is from the builder base.
+	 * Returns a <code>String</code> of the village name from which the troop comes from.
 	 * 
-	 * @return a string corresponding to the village to which the troop is attached
+	 * @return <code>home</code> if the troop is from the main village<br>
+	 * <code>builderBase</code> if the troop is from the builder base
 	 */
 	public String getVillage()
 	{

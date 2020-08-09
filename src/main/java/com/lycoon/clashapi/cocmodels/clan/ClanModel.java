@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.lycoon.clashapi.cocmodels.player.League;
 
 public class ClanModel
 {
@@ -65,7 +66,7 @@ public class ClanModel
 	
 	@SerializedName("warLeague")
 	@Expose
-	private Label warLeague;
+	private League warLeague;
 	
 	@SerializedName("members")
 	@Expose
@@ -149,7 +150,7 @@ public class ClanModel
 		return isWarLogPublic;
 	}
 	
-	public Label getWarLeague()
+	public League getWarLeague()
 	{
 		return warLeague;
 	}

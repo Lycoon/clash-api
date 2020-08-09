@@ -17,7 +17,7 @@ public class Player
 	
 	@SerializedName("league")
 	@Expose
-	private Label league;
+	private League league;
 	
 	@SerializedName("role")
 	@Expose
@@ -114,7 +114,7 @@ public class Player
 	/**
 	 * Returns the clan the player belongs to.
 	 * 
-	 * @return a <code>ClanModel</code> object with all clan data the player belongs to
+	 * @return a <code>ClanModel</code> object - <b>null</b> if the player is in no clan
 	 * @see ClanModel
 	 */
 	public ClanModel getClan()
@@ -122,7 +122,13 @@ public class Player
 		return clan;
 	}
 	
-	public Label getLeague()
+	/**
+	 * Returns the league the player is currently in.
+	 * 
+	 * @return a <code>League</code> object - <b>null</b> if the player is in no league
+	 * @see League
+	 */
+	public League getLeague()
 	{
 		return league;
 	}
@@ -147,7 +153,7 @@ public class Player
 	 * It <b>does</b> only include attacks from the main village.<br>
 	 * It <b>does not</b> include attacks from clan wars.
 	 * 
-	 * @return an integer corresponding to how many attacks the player won during the current season
+	 * @return an integer
 	 */
 	public Integer getAttackWins()
 	{
@@ -161,7 +167,7 @@ public class Player
 	 * It <b>does</b> only include defenses from the main village.<br>
 	 * It <b>does not</b> include defenses from clan wars.
 	 * 
-	 * @return an integer corresponding to how many defenses the player won during the current season
+	 * @return an integer
 	 */
 	public Integer getDefenseWins()
 	{
@@ -172,7 +178,7 @@ public class Player
 	 * Returns the current level of the player's townhall.<br><br>
 	 * Ranges from <code>1</code> to <code>13</code>.
 	 * 
-	 * @return an integer corresponding to the current level of the player's townhall
+	 * @return an integer
 	 */
 	public Integer getTownHallLevel()
 	{
@@ -184,7 +190,7 @@ public class Player
 	 * The townhall weapon level only concerns townhall level 13.<br><br>
 	 * Ranges from <code>1</code> to <code>5</code>.
 	 * 
-	 * @return an integer corresponding to the current level of the townhall weapon
+	 * @return an integer
 	 */
 	public Integer getTownHallWeaponLevel()
 	{
@@ -192,9 +198,10 @@ public class Player
 	}
 
 	/**
-	 * Returns a set of season data.
+	 * Returns a set of <code>Season</code> objects for players in Legend league.
 	 * 
-	 * @return a <code>LegendStatistics</code> object gathering scores of player's seasons
+	 * @return a <code>LegendStatistics</code> object - <b>null</b> if the player is not in Legend league
+	 * @see LegendStatistics
 	 * @see Season
 	 */
 	public LegendStatistics getLegendStatistics()
@@ -203,9 +210,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the troops the player has.
+	 * Returns all the troops the player unlocked.
 	 * 
-	 * @return a <code>List</code> containing all the troops the player unlocked
+	 * @return a <code>List</code> of <code>Troop</code> objects
 	 * @see Troop
 	 */
 	public List<Troop> getTroops()
@@ -214,9 +221,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the heroes the player has.
+	 * Returns all the heroes the player unlocked.
 	 * 
-	 * @return a <code>List</code> containing all the heroes the player unlocked
+	 * @return a <code>List</code> of <code>Troop</code> objects
 	 * @see Troop
 	 */
 	public List<Troop> getHeroes()
@@ -225,9 +232,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns all the spells the player has.
+	 * Returns all the spells the player unlocked.
 	 * 
-	 * @return a <code>List</code> containing all the spells the player unlocked
+	 * @return a <code>List</code> of <code>Troop</code> objects
 	 * @see Troop
 	 */
 	public List<Troop> getSpells()
@@ -238,7 +245,7 @@ public class Player
 	/**
 	 * Returns the labels the player has on its profile.
 	 * 
-	 * @return a <code>List</code> containing the labels displayed on the player's profile
+	 * @return a <code>List</code> of <code>Label</code> objects
 	 * @see Label
 	 */
 	public List<Label> getLabels()
@@ -251,7 +258,7 @@ public class Player
 	 * The tag is a unique identifier each player has, in the form of #AAAA00.<br>
 	 * It is displayed under the nickname on player's profile.
 	 * 
-	 * @return a <code>String</code> containing the player's tag
+	 * @return a <code>String</code>
 	 */
 	public String getTag()
 	{
@@ -262,7 +269,7 @@ public class Player
 	 * Returns the name of the player.<br>
 	 * The name is the identity behind which you appear when you write in chat.
 	 * 
-	 * @return a <code>String</code> containing the player's nickname
+	 * @return a <code>String</code>
 	 */
 	public String getName()
 	{
@@ -272,7 +279,7 @@ public class Player
 	/**
 	 * Returns the current experience level of the player.
 	 * 
-	 * @return an integer corresponding to the current experience level of the player
+	 * @return an integer
 	 */
 	public Integer getExpLevel()
 	{
@@ -282,7 +289,7 @@ public class Player
 	/**
 	 * Returns the current number of trophies of the player.
 	 * 
-	 * @return an integer corresponding to the current number of trophies of the player
+	 * @return an integer
 	 */
 	public Integer getTrophies()
 	{
@@ -292,7 +299,7 @@ public class Player
 	/**
 	 * Returns the highest number of trophies the player had.
 	 * 
-	 * @return an integer corresponding to the highest number of trophies the player had
+	 * @return an integer
 	 */
 	public Integer getBestTrophies()
 	{
@@ -300,9 +307,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of donations the player did in its clan during the season.
+	 * Returns the number of troops the player donated in its clan during the season.
 	 * 
-	 * @return an integer corresponding to the number of donations the player did in its clan during the season
+	 * @return an integer
 	 */
 	public Integer getDonations()
 	{
@@ -310,9 +317,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of donations the player received in its clan during the season.
+	 * Returns the number of troops the player received in its clan during the season.
 	 * 
-	 * @return an integer corresponding to the number of donations the player received in its clan during the season
+	 * @return an integer
 	 */
 	public Integer getDonationsReceived()
 	{
@@ -320,10 +327,10 @@ public class Player
 	}
 	
 	/**
-	 * Returns the level of the player's builder hall.<br><br>
+	 * Returns the level of the player's builder hall.<br>
 	 * Ranges from <code>1</code> to <code>9</code>.
 	 * 
-	 * @return an integer corresponding to the level of the player's builder hall
+	 * @return an integer - <b>null</b> if the player has not built the builder base yet
 	 */
 	public Integer getBuilderHallLevel()
 	{
@@ -331,9 +338,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns the number of trophies earned in the main village of the player.
+	 * Returns the number of trophies earned in the builder base of the player.
 	 * 
-	 * @return an integer corresponding to the number of trophies earned in the main village of the player
+	 * @return an integer
 	 */
 	public Integer getBuilderBaseTrophies()
 	{
@@ -343,7 +350,7 @@ public class Player
 	/**
 	 * Returns the highest number of trophies the player had in the builder base.
 	 * 
-	 * @return an integer corresponding to the highest number of trophies the player had in the builder base
+	 * @return an integer
 	 */
 	public Integer getBuilderBaseBestTrophies()
 	{
@@ -351,9 +358,9 @@ public class Player
 	}
 	
 	/**
-	 * Returns a number corresponding to the total number of stars earned in clan wars.
+	 * Returns the total number of stars the player earned in clan wars.
 	 * 
-	 * @return an integer corresponding to the total number of stars earned in clan wars
+	 * @return an integer
 	 */
 	public Integer getWarStars()
 	{
@@ -363,7 +370,7 @@ public class Player
 	/**
 	 * Returns the achievements of the player.<br>
 	 * 
-	 * @return a <code>List</code> containing <code>Achievement</code> objects holding achievements of the player
+	 * @return a <code>List</code> containing <code>Achievement</code> objects
 	 * @see Achievement
 	 */
 	public List<Achievement> getAchievements()
@@ -374,7 +381,7 @@ public class Player
 	/**
 	 * Returns the number of won battles in the builder base.<br>
 	 * 
-	 * @return an integer corresponding to the number of won battles in the builder base
+	 * @return an integer
 	 */
 	public Integer getBuilderBaseWinCount()
 	{
