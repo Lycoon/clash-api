@@ -8,8 +8,16 @@ import java.nio.file.Paths;
 import com.google.gson.Gson;
 import com.lycoon.clashapi.cocmodels.clan.ClanModel;
 import com.lycoon.clashapi.cocmodels.clanwar.WarInfo;
+import com.lycoon.clashapi.cocmodels.clanwar.WarlogModel;
 import com.lycoon.clashapi.cocmodels.clanwar.league.WarLeagueGroup;
 import com.lycoon.clashapi.cocmodels.player.Player;
+import com.lycoon.clashapi.core.exception.AuthException;
+import com.lycoon.clashapi.core.exception.BadRequestException;
+import com.lycoon.clashapi.core.exception.ClashAPIException;
+import com.lycoon.clashapi.core.exception.MaintenanceException;
+import com.lycoon.clashapi.core.exception.NotFoundException;
+import com.lycoon.clashapi.core.exception.RateLimitException;
+import com.lycoon.clashapi.core.exception.UnknownException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,12 +52,27 @@ public class ClashAPI
 			.build();
 	}
 	
-	private Response makeAPICall(String url) throws IOException
+	private Response makeAPICall(String url) throws IOException, ClashAPIException
 	{
 		Response res = http.newCall(buildReq(url)).execute();
-		
 		if (!res.isSuccessful())
-			throw new IOException("[ClashAPI] Failed fetching data: " + res.code() + " " +res.message());
+		{
+			switch(res.code())
+			{
+				case 400:
+					throw new BadRequestException("400");
+				case 403:
+					throw new AuthException("403");
+				case 404:
+					throw new NotFoundException("404");
+				case 429:
+					throw new RateLimitException("429");
+				case 503:
+					throw new MaintenanceException("503");
+				default:
+					throw new UnknownException("500");
+			}
+		}
 		return res;
 	}
 	
@@ -66,9 +89,10 @@ public class ClashAPI
 	 * @param playerTag - <code>String</code> of the player's tag
 	 * @return a <code>Player</code> object
 	 * @see Player
-	 * @throws IOException if the request to the game API failed
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
 	 */
-	public Player getPlayer(String playerTag) throws IOException
+	public Player getPlayer(String playerTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("players/" +formatTag(playerTag));
 		return gson.fromJson(res.body().string(), Player.class);
@@ -82,9 +106,10 @@ public class ClashAPI
 	 * @param clanTag - <code>String</code> of the clan's tag
 	 * @return a <code>ClanModel</code> object
 	 * @see ClanModel
-	 * @throws IOException if the request to the game API failed
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
 	 */
-	public ClanModel getClan(String clanTag) throws IOException
+	public ClanModel getClan(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag));
 		return gson.fromJson(res.body().string(), ClanModel.class);
@@ -98,12 +123,30 @@ public class ClashAPI
 	 * @param clanTag - <code>String</code> of the clan's tag
 	 * @return a <code>WarInfo</code> object
 	 * @see WarInfo
-	 * @throws IOException if the request to the game API failed
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
 	 */
-	public WarInfo getCurrentWar(String clanTag) throws IOException
+	public WarInfo getCurrentWar(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar");
 		return gson.fromJson(res.body().string(), WarInfo.class);
+	}
+	
+	/**
+	 * Returns the warlog of the clan with the given tag.<br><br>
+	 * The tag is a unique identifier each clan has, in the form of #AAAA00.<br>
+	 * It is displayed under the clan name on clan's profile.
+	 * 
+	 * @param clanTag - <code>String</code> of the clan's tag
+	 * @return a <code>WarlogModel</code> object
+	 * @see WarlogModel
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
+	 */
+	public WarlogModel getWarlog(String clanTag) throws IOException, ClashAPIException
+	{
+		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/warlog");
+		return gson.fromJson(res.body().string(), WarlogModel.class);
 	}
 	
 	/**
@@ -114,9 +157,10 @@ public class ClashAPI
 	 * @param clanTag - <code>String</code> of the clan's tag
 	 * @return a <code>WarLeagueGroup</code> object
 	 * @see WarLeagueGroup
-	 * @throws IOException if the request to the game API failed
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
 	 */
-	public WarLeagueGroup getCWLGroup(String clanTag) throws IOException
+	public WarLeagueGroup getCWLGroup(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar/leaguegroup");
 		return gson.fromJson(res.body().string(), WarLeagueGroup.class);
@@ -130,9 +174,10 @@ public class ClashAPI
 	 * @param warTag - <code>String</code> of the war tag
 	 * @return a <code>WarInfo</code> object
 	 * @see WarInfo
-	 * @throws IOException if the request to the game API failed
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
 	 */
-	public WarInfo getCWLWar(String warTag) throws IOException
+	public WarInfo getCWLWar(String warTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clanwarleagues/wars/" +formatTag(warTag));
 		return gson.fromJson(res.body().string(), WarInfo.class);
