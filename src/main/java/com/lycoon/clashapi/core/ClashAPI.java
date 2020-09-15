@@ -1,27 +1,18 @@
 package com.lycoon.clashapi.core;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import com.google.gson.Gson;
 import com.lycoon.clashapi.cocmodels.clan.ClanModel;
 import com.lycoon.clashapi.cocmodels.clanwar.WarInfo;
 import com.lycoon.clashapi.cocmodels.clanwar.WarlogModel;
 import com.lycoon.clashapi.cocmodels.clanwar.league.WarLeagueGroup;
 import com.lycoon.clashapi.cocmodels.player.Player;
-import com.lycoon.clashapi.core.exception.AuthException;
-import com.lycoon.clashapi.core.exception.BadRequestException;
-import com.lycoon.clashapi.core.exception.ClashAPIException;
-import com.lycoon.clashapi.core.exception.MaintenanceException;
-import com.lycoon.clashapi.core.exception.NotFoundException;
-import com.lycoon.clashapi.core.exception.RateLimitException;
-import com.lycoon.clashapi.core.exception.UnknownException;
-
+import com.lycoon.clashapi.core.exception.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Create an instance of this class to start using the API.<br>
@@ -33,9 +24,9 @@ public class ClashAPI
 	private final static String URL = "https://api.clashofclans.com/";
 	private final static String API_VERSION = "v1";
 	
-	private String token;
-	private OkHttpClient http;
-	private Gson gson;
+	private final String token;
+	private final OkHttpClient http;
+	private final Gson gson;
 	
 	public ClashAPI(String token)
 	{
@@ -44,7 +35,7 @@ public class ClashAPI
 		gson = new Gson();
 	}
 	
-	private Request buildReq(String suffix) throws IOException
+	private Request buildReq(String suffix)
 	{
 		return new Request.Builder()
 			.header("authorization", "Bearer " + token)
@@ -95,7 +86,7 @@ public class ClashAPI
 	public Player getPlayer(String playerTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("players/" +formatTag(playerTag));
-		return gson.fromJson(res.body().string(), Player.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), Player.class);
 	}
 	
 	/**
@@ -112,7 +103,7 @@ public class ClashAPI
 	public ClanModel getClan(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag));
-		return gson.fromJson(res.body().string(), ClanModel.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), ClanModel.class);
 	}
 	
 	/**
@@ -129,7 +120,7 @@ public class ClashAPI
 	public WarInfo getCurrentWar(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar");
-		return gson.fromJson(res.body().string(), WarInfo.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), WarInfo.class);
 	}
 	
 	/**
@@ -146,7 +137,7 @@ public class ClashAPI
 	public WarlogModel getWarlog(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/warlog");
-		return gson.fromJson(res.body().string(), WarlogModel.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), WarlogModel.class);
 	}
 	
 	/**
@@ -163,7 +154,7 @@ public class ClashAPI
 	public WarLeagueGroup getCWLGroup(String clanTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar/leaguegroup");
-		return gson.fromJson(res.body().string(), WarLeagueGroup.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), WarLeagueGroup.class);
 	}
 	
 	/**
@@ -180,12 +171,6 @@ public class ClashAPI
 	public WarInfo getCWLWar(String warTag) throws IOException, ClashAPIException
 	{
 		Response res = makeAPICall("clanwarleagues/wars/" +formatTag(warTag));
-		return gson.fromJson(res.body().string(), WarInfo.class);
+		return gson.fromJson(Objects.requireNonNull(res.body()).string(), WarInfo.class);
 	}
-    
-    // Returns data from a file
-    static String getFileContent(String file) throws IOException
-    {
-    	return new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
-    }
 }

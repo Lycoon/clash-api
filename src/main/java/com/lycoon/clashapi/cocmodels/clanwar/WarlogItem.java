@@ -17,10 +17,6 @@ public class WarlogItem
 	@Expose
 	private Integer teamSize;
 	
-	@SerializedName("expEarned")
-	@Expose
-	private Integer expEarned;
-	
 	@SerializedName("clan")
 	@Expose
 	private ClanWarModel clan;
@@ -42,11 +38,6 @@ public class WarlogItem
 	public Integer getTeamSize()
 	{
 		return teamSize;
-	}
-	
-	public Integer getExpEarned()
-	{
-		return expEarned;
 	}
 
 	public ClanWarModel getClan()
