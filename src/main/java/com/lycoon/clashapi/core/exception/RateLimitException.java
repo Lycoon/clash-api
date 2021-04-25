@@ -7,8 +7,7 @@ public class RateLimitException extends ClashAPIException
 {
 	private static final long serialVersionUID = 5756968002969597017L;
 
-	public RateLimitException(String message) 
-    {
-        super(message);
+	public RateLimitException() {
+        super("429");
     }
 }

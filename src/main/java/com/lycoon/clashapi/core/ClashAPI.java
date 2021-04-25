@@ -1,27 +1,17 @@
 package com.lycoon.clashapi.core;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import com.google.gson.Gson;
 import com.lycoon.clashapi.cocmodels.clan.ClanModel;
 import com.lycoon.clashapi.cocmodels.clanwar.WarInfo;
 import com.lycoon.clashapi.cocmodels.clanwar.WarlogModel;
 import com.lycoon.clashapi.cocmodels.clanwar.league.WarLeagueGroup;
 import com.lycoon.clashapi.cocmodels.player.Player;
-import com.lycoon.clashapi.core.exception.AuthException;
-import com.lycoon.clashapi.core.exception.BadRequestException;
 import com.lycoon.clashapi.core.exception.ClashAPIException;
-import com.lycoon.clashapi.core.exception.MaintenanceException;
-import com.lycoon.clashapi.core.exception.NotFoundException;
-import com.lycoon.clashapi.core.exception.RateLimitException;
-import com.lycoon.clashapi.core.exception.UnknownException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
+
+import static com.lycoon.clashapi.core.CoreUtils.*;
 
 /**
  * Create an instance of this class to start using the API.<br>
@@ -30,55 +20,51 @@ import okhttp3.Response;
  */
 public class ClashAPI
 {
-	private final static String URL = "https://api.clashofclans.com/";
-	private final static String API_VERSION = "v1";
-	
-	private String token;
-	private OkHttpClient http;
-	private Gson gson;
+	private final String token;
+	private final OkHttpClient http;
 	
 	public ClashAPI(String token)
 	{
 		this.token = token;
 		http = new OkHttpClient();
-		gson = new Gson();
 	}
-	
-	private Request buildReq(String suffix) throws IOException
-	{
+
+	private Request.Builder getBaseRequest(String suffix) {
 		return new Request.Builder()
-			.header("authorization", "Bearer " + token)
-			.url(URL + API_VERSION + "/" + suffix)
-			.build();
+				.header("authorization", "Bearer " + token)
+				.url(URL + API_VERSION + "/" + suffix);
 	}
-	
-	private Response makeAPICall(String url) throws IOException, ClashAPIException
+
+	private Response getRequest(String url) throws IOException, ClashAPIException
 	{
-		Response res = http.newCall(buildReq(url)).execute();
-		if (!res.isSuccessful())
-		{
-			switch(res.code())
-			{
-				case 400:
-					throw new BadRequestException("400");
-				case 403:
-					throw new AuthException("403");
-				case 404:
-					throw new NotFoundException("404");
-				case 429:
-					throw new RateLimitException("429");
-				case 503:
-					throw new MaintenanceException("503");
-				default:
-					throw new UnknownException("500");
-			}
-		}
-		return res;
+		Response res = http.newCall(getBaseRequest(url).build()).execute();
+		return checkResponse(res);
 	}
-	
-	private String formatTag(String tag)
+
+	private Response postRequest(String url, RequestBody body) throws IOException, ClashAPIException
 	{
-		return tag.replace("#", "%23");
+		Response res = http.newCall(getBaseRequest(url).post(body).build()).execute();
+		return checkResponse(res);
+	}
+
+	/**
+	 * Returns whether the given player tag is verified or not.<br><br>
+	 * The tag is a unique identifier each player has, in the form of #AAAA00.<br>
+	 * It is displayed under the nickname on player's profile.
+	 *
+	 * @param playerTag - <code>String</code> of the player's tag
+	 * @return a boolean
+	 * @throws IOException if the deserialization failed
+	 * @throws ClashAPIException if the request to the game API failed
+	 */
+	public boolean isVerifiedPlayer(String playerTag, String token) throws IOException, ClashAPIException
+	{
+		MediaType contentType = MediaType.parse("application/json; charset=utf-8");
+		RequestBody body = RequestBody.create(contentType, "{\"token\":\"" + token + "\"}");
+		Response res = postRequest("players/" + formatTag(playerTag) + "/verifytoken", body);
+
+		TokenResponse tokenResponse = deserialize(res, TokenResponse.class);
+		return tokenResponse.getStatus().equals("ok");
 	}
 	
 	/**
@@ -94,8 +80,8 @@ public class ClashAPI
 	 */
 	public Player getPlayer(String playerTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("players/" +formatTag(playerTag));
-		return gson.fromJson(res.body().string(), Player.class);
+		Response res = getRequest("players/" + formatTag(playerTag));
+		return deserialize(res, Player.class);
 	}
 	
 	/**
@@ -111,8 +97,8 @@ public class ClashAPI
 	 */
 	public ClanModel getClan(String clanTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("clans/" +formatTag(clanTag));
-		return gson.fromJson(res.body().string(), ClanModel.class);
+		Response res = getRequest("clans/" + formatTag(clanTag));
+		return deserialize(res, ClanModel.class);
 	}
 	
 	/**
@@ -128,8 +114,8 @@ public class ClashAPI
 	 */
 	public WarInfo getCurrentWar(String clanTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar");
-		return gson.fromJson(res.body().string(), WarInfo.class);
+		Response res = getRequest("clans/" + formatTag(clanTag)+ "/currentwar");
+		return deserialize(res, WarInfo.class);
 	}
 	
 	/**
@@ -145,8 +131,8 @@ public class ClashAPI
 	 */
 	public WarlogModel getWarlog(String clanTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/warlog");
-		return gson.fromJson(res.body().string(), WarlogModel.class);
+		Response res = getRequest("clans/" + formatTag(clanTag)+ "/warlog");
+		return deserialize(res, WarlogModel.class);
 	}
 	
 	/**
@@ -162,8 +148,8 @@ public class ClashAPI
 	 */
 	public WarLeagueGroup getCWLGroup(String clanTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("clans/" +formatTag(clanTag)+ "/currentwar/leaguegroup");
-		return gson.fromJson(res.body().string(), WarLeagueGroup.class);
+		Response res = getRequest("clans/" + formatTag(clanTag)+ "/currentwar/leaguegroup");
+		return deserialize(res, WarLeagueGroup.class);
 	}
 	
 	/**
@@ -179,13 +165,7 @@ public class ClashAPI
 	 */
 	public WarInfo getCWLWar(String warTag) throws IOException, ClashAPIException
 	{
-		Response res = makeAPICall("clanwarleagues/wars/" +formatTag(warTag));
-		return gson.fromJson(res.body().string(), WarInfo.class);
+		Response res = getRequest("clanwarleagues/wars/" + formatTag(warTag));
+		return deserialize(res, WarInfo.class);
 	}
-    
-    // Returns data from a file
-    static String getFileContent(String file) throws IOException
-    {
-    	return new String(Files.readAllBytes(Paths.get(file)), StandardCharsets.UTF_8);
-    }
 }

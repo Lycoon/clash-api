@@ -20,6 +20,10 @@ public class Troop
 	@SerializedName("village")
 	@Expose
 	private String village;
+
+	@SerializedName("superTroopIsActive")
+	@Expose
+	private Boolean superTroopIsActive;
 	
 	/**
 	 * Returns the current level of the troop.
@@ -60,6 +64,16 @@ public class Troop
 	public String getVillage()
 	{
 		return village;
+	}
+
+	/**
+	 * Returns whether the super troop is active or not.
+	 *
+	 * @return a boolean
+	 */
+	public Boolean isActiveSuperTroop()
+	{
+		return superTroopIsActive;
 	}
 	
 	@Override

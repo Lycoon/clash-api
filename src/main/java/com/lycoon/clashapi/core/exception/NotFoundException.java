@@ -7,8 +7,7 @@ public class NotFoundException extends ClashAPIException
 {
 	private static final long serialVersionUID = 7251768343247643633L;
 	
-	public NotFoundException(String message) 
-    {
-        super(message);
+	public NotFoundException() {
+        super("404");
     }
 }

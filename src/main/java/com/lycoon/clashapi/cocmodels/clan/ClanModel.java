@@ -47,6 +47,14 @@ public class ClanModel
 	@SerializedName("requiredTrophies")
 	@Expose
 	private Integer requiredTrophies;
+
+	@SerializedName("requiredVersusTrophies")
+	@Expose
+	private Integer requiredVersusTrophies;
+
+	@SerializedName("requiredTownhallLevel")
+	@Expose
+	private Integer requiredTownhallLevel;
 	
 	@SerializedName("warFrequency")
 	@Expose
@@ -59,6 +67,14 @@ public class ClanModel
 	@SerializedName("warWins")
 	@Expose
 	private Integer warWins;
+
+	@SerializedName("warLosses")
+	@Expose
+	private Integer warLosses;
+
+	@SerializedName("warTies")
+	@Expose
+	private Integer warTies;
 	
 	@SerializedName("isWarLogPublic")
 	@Expose
@@ -130,6 +146,16 @@ public class ClanModel
 		return requiredTrophies;
 	}
 
+	public Integer getRequiredVersusTrophies()
+	{
+		return requiredVersusTrophies;
+	}
+
+	public Integer getRequiredTownhallLevel()
+	{
+		return requiredTownhallLevel;
+	}
+
 	public String getWarFrequency()
 	{
 		return warFrequency;
@@ -145,7 +171,17 @@ public class ClanModel
 		return warWins;
 	}
 
-	public Boolean getIsWarLogPublic()
+	public Integer getWarLosses()
+	{
+		return warLosses;
+	}
+
+	public Integer getWarTies()
+	{
+		return warTies;
+	}
+
+	public Boolean isWarLogPublic()
 	{
 		return isWarLogPublic;
 	}

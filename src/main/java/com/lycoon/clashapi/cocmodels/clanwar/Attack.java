@@ -25,6 +25,10 @@ public class Attack
 	@Expose
 	private Double destructionPercentage;
 
+	@SerializedName("duration")
+	@Expose
+	private Integer duration;
+
 	public Integer getOrder()
 	{
 		return order;
@@ -48,5 +52,10 @@ public class Attack
 	public Double getDestructionPercentage()
 	{
 		return destructionPercentage;
+	}
+
+	public Integer getDuration()
+	{
+		return duration;
 	}
 }

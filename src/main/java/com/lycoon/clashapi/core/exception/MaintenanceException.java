@@ -7,8 +7,7 @@ public class MaintenanceException extends ClashAPIException
 {
 	private static final long serialVersionUID = -4588968292458930870L;
 
-	public MaintenanceException(String message) 
-    {
-        super(message);
+	public MaintenanceException() {
+        super("503");
     }
 }
