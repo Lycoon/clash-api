@@ -4,8 +4,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.lycoon.clashapi</groupId>
-  <artifactId>ClashAPI</artifactId>
-  <version>1.0</version>
+  <artifactId>clash-api</artifactId>
+  <version>1.0.0</version>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>ClashAPI</name>
+      <url>https://maven.pkg.github.com/Lycoon/clash-api</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
