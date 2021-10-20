@@ -1,5 +1,6 @@
 ![ClashAPI logo](/src/main/resources/logo.png)
 
+[![Java CI](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml/badge.svg?branch=master&event=push)](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml)
 ClashAPI is a very simple yet very complete Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
 
 ## How does it work?
