@@ -25,8 +25,8 @@ In order to make calls to the Clash of Clans API, Supercell (developer of the ga
 Though this token is linked to the IP address you gave, I would advise **not to hardcode it** inside your code, for safety sake. Paste it in a separate file that you would access from your code. It will prevent your token being spread if you ever share your files.
 
 ## Dependencies
-* GSON `2.8.6`
-* OkHttp `4.8.0`
+* GSON `2.8.8`
+* OkHttp `4.9.2`
 
 ## Disclaimer
 *This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy: www.supercell.com/fan-content-policy.*
