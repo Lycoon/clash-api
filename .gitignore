@@ -1,8 +1,6 @@
-# Ignore Gradle project-specific cache directory
-.gradle
-
 # Ignore Gradle build output directory
 build
+target
 
 .metadata
 bin/
@@ -15,3 +13,4 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.idea
