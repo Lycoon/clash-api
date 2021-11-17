@@ -3,6 +3,7 @@ package com.lycoon.clashapi.core;
 import com.google.gson.Gson;
 import com.lycoon.clashapi.core.exception.*;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,8 +38,11 @@ public class CoreUtils
 
     public static <T> T deserialize(Response res, Class<T> obj) throws IOException
     {
-        T deserialized = gson.fromJson(Objects.requireNonNull(res.body()).string(), obj);
-        res.close();
+        T deserialized;
+        try (ResponseBody body = res.body())
+        {
+            deserialized = gson.fromJson(Objects.requireNonNull(body).string(), obj);
+        }
 
         return deserialized;
     }
