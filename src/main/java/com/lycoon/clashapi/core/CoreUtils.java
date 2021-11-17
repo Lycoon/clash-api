@@ -45,6 +45,8 @@ public class CoreUtils
 
     public static String formatTag(String tag)
     {
-        return tag.replace("#", "%23");
+        if (tag.startsWith("#"))
+            return tag.replace("#", "%23");
+        return "%23" + tag;
     }
 }
