@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Clan(
     val warLeague: WarLeague,
-    val memberList: List<ClanWarMember>,
+    val memberList: List<WarMember>,
     val requiredTrophies: Int,
     val clanVersusPoints: Int,
     val tag: String,

@@ -12,5 +12,5 @@ data class WarClan(
     val attacks: Int,
     val stars: Int,
     val expEarned: Int,
-    val members: List<ClanWarMember>
+    val members: List<WarMember>
 )
