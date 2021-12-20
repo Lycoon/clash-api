@@ -8,5 +8,5 @@ data class Troop(
     val name: String,
     val maxLevel: String,
     val village: String,
-    val superTroopIsActive: Boolean
+    val superTroopIsActive: Boolean? = false
 )

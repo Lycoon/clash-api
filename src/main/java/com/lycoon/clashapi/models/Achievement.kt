@@ -9,6 +9,6 @@ data class Achievement(
     val name: String,
     val target: Int,
     val info: String,
-    val completionInfo: String,
+    val completionInfo: String? = null,
     val village: String
 )

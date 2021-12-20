@@ -1,6 +1,5 @@
 package com.lycoon.clashapi.core
 
-import com.google.gson.Gson
 import com.lycoon.clashapi.core.exception.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -10,7 +9,12 @@ import java.io.IOException
 object CoreUtils {
     const val URL = "https://api.clashofclans.com/"
     const val API_VERSION = "v1"
-    val gson = Gson()
+    val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        coerceInputValues = true
+        prettyPrint = true
+    }
 
     @Throws(ClashAPIException::class)
     fun checkResponse(res: Response): Response {
@@ -27,7 +31,7 @@ object CoreUtils {
 
     @Throws(IOException::class)
     inline fun <reified T> deserialize(res: Response): T {
-        return Json.decodeFromString(res.body.toString())
+        return json.decodeFromString(res.body?.string() ?: "")
     }
 
     fun formatTag(tag: String): String {

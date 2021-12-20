@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Location(
-    val localizedName: String,
+    val localizedName: String? = null,
     val id: Int,
     val name: String,
     val isCountry: Boolean,

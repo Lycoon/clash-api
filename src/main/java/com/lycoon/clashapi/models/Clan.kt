@@ -17,7 +17,7 @@ data class Clan(
     val warTies: Int,
     val warLosses: Int,
     val clanPoints: Int,
-    val chatLanguage: Language,
+    val chatLanguage: Language? = null,
     val labels: List<Label>,
     val name: String,
     val location: Location,
