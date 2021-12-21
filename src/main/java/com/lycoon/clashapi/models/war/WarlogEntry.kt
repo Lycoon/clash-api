@@ -8,5 +8,5 @@ data class WarlogEntry(
     val teamSize: Int,
     val opponent: WarlogClan,
     val endTime: String,
-    val result: String
+    val result: String? = null
 )
