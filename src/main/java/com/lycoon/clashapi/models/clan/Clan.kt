@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Clan(
     val warLeague: WarLeague,
-    val memberList: List<WarMember>,
+    val memberList: List<ClanMember>,
     val requiredVersusTrophies: Int,
     val requiredTownhallLevel: Int,
     val requiredTrophies: Int,
