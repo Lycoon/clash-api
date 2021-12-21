@@ -27,7 +27,7 @@ data class Player(
     val bestTrophies: Int,
     val donations: Int,
     val donationsReceived: Int,
-    val builderHallLevel: Int,
+    val builderHallLevel: Int? = null,
     val versusTrophies: Int,
     val bestVersusTrophies: Int,
     val warStars: Int,
