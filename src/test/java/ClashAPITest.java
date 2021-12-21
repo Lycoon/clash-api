@@ -1,5 +1,5 @@
-import com.lycoon.clashapi.models.Clan;
-import com.lycoon.clashapi.models.Player;
+import com.lycoon.clashapi.models.clan.Clan;
+import com.lycoon.clashapi.models.player.Player;
 import com.lycoon.clashapi.core.ClashAPI;
 import com.lycoon.clashapi.core.exception.NotFoundException;
 import junit.framework.TestCase;

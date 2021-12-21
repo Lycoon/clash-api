@@ -2,8 +2,16 @@ package com.lycoon.clashapi.core
 
 import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
+import com.lycoon.clashapi.core.CoreUtils.checkResponse
 import com.lycoon.clashapi.core.exception.ClashAPIException
-import com.lycoon.clashapi.models.*
+import com.lycoon.clashapi.models.clan.Clan
+import com.lycoon.clashapi.models.clan.ClanMember
+import com.lycoon.clashapi.models.common.TokenResponse
+import com.lycoon.clashapi.models.league.League
+import com.lycoon.clashapi.models.player.Player
+import com.lycoon.clashapi.models.war.War
+import com.lycoon.clashapi.models.war.WarlogEntry
+import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -25,13 +33,18 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     private fun get(url: String): Response {
         val res = http.newCall(getBaseRequest(url).build()).execute()
-        return CoreUtils.checkResponse(res)
+        return checkResponse(res)
     }
 
     @Throws(IOException::class, ClashAPIException::class)
     private fun post(url: String, body: RequestBody): Response {
         val res = http.newCall(getBaseRequest(url).post(body).build()).execute()
-        return CoreUtils.checkResponse(res)
+        return checkResponse(res)
+    }
+
+    private fun getTokenVerificationBody(token: String) : RequestBody {
+        val contentType: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
+        return "{\"token\":\"$token\"}".toRequestBody(contentType)
     }
 
     /**
@@ -80,7 +93,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getWarlog(clanTag: String): List<WarlogEntry> {
-        val res = get("clans/${formatTag(clanTag)}/warlog")
+        val tag = formatTag(clanTag)
+        val res = get("clans/$tag/warlog")
         return deserialize(res)
     }
 
@@ -96,7 +110,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getCurrentWar(clanTag: String): War {
-        val res = get("clans/${formatTag(clanTag)}/currentwar")
+        val tag = formatTag(clanTag)
+        val res = get("clans/$tag/currentwar")
         return deserialize(res)
     }
 
@@ -112,7 +127,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getClan(clanTag: String): Clan {
-        val res = get("clans/${formatTag(clanTag)}")
+        val tag = formatTag(clanTag)
+        val res = get("clans/$tag")
         return deserialize(res)
     }
 
@@ -128,7 +144,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getClanMembers(clanTag: String): List<ClanMember> {
-        val res = get("clans/${formatTag(clanTag)}/members")
+        val tag = formatTag(clanTag)
+        val res = get("clans/$tag/members")
         return deserialize(res)
     }
 
@@ -144,7 +161,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getPlayer(playerTag: String): Player {
-        val res = get("players/${formatTag(playerTag)}")
+        val tag = formatTag(playerTag)
+        val res = get("players/$tag")
         return deserialize(res)
     }
 
@@ -159,9 +177,8 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun isVerifiedPlayer(playerTag: String, token: String): Boolean {
-        val contentType: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val body = "{\"token\":\"$token\"}".toRequestBody(contentType)
-        val res = post("players/${formatTag(playerTag)}/verifytoken", body)
+        val tag = formatTag(playerTag)
+        val res = post("players/$tag/verifytoken", getTokenVerificationBody(token))
 
         return deserialize<TokenResponse>(res).status == "ok"
     }
