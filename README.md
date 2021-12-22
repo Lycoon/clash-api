@@ -4,6 +4,7 @@
   <a href="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml">
     <img alt="Check CI status" src="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml/badge.svg?branch=dev">
   </a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/Lycoon/clash-api">
 </p>
 
 ClashAPI is a very simple yet very complete Kotlin/Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
