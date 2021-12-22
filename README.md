@@ -2,7 +2,7 @@
 
 [![Java CI](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml/badge.svg?branch=master&event=push)](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml)
 
-ClashAPI is a very simple yet very complete Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
+ClashAPI is a very simple yet very complete Kotlin/Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
 
 ## How does it work?
 I analyzed JSON responses from the Clash of Clans API to recreate the models as Java structures so you don't have to deal with deserialization and data categorization each time. You can therefore simply access game data through classes and methods, all documented!
