@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml">
-    <img alt="Check CI status" src="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml/badge.svg?branch=master&event=push">
+    <img alt="Check CI status" src="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml/badge.svg?branch=dev">
   </a>
 </p>
 
