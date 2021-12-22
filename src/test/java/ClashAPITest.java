@@ -1,5 +1,5 @@
-import com.lycoon.clashapi.cocmodels.clan.ClanModel;
-import com.lycoon.clashapi.cocmodels.player.Player;
+import com.lycoon.clashapi.models.clan.Clan;
+import com.lycoon.clashapi.models.player.Player;
 import com.lycoon.clashapi.core.ClashAPI;
 import com.lycoon.clashapi.core.exception.NotFoundException;
 import junit.framework.TestCase;
@@ -22,11 +22,9 @@ public class ClashAPITest extends TestCase
 
         // Loading secret tokens
         Properties tokens = new Properties();
-        try
-        {
+        try {
             tokens.load(new FileInputStream(CONFIG));
-        }
-        catch (IOException ignored) {}
+        } catch (IOException ignored) {}
 
         clashAPI = new ClashAPI(tokens.getProperty("clash-of-clans"));
     }
@@ -42,7 +40,7 @@ public class ClashAPITest extends TestCase
 
     public void testClanWithoutSharp() throws Exception
     {
-        ClanModel clan = clashAPI.getClan(CLAN_TAG);
+        Clan clan = clashAPI.getClan(CLAN_TAG);
 
         assertNotNull(clan);
         assertEquals(clan.getName(), "Amnésia");
@@ -60,7 +58,7 @@ public class ClashAPITest extends TestCase
 
     public void testClanWithSharp() throws Exception
     {
-        ClanModel clan = clashAPI.getClan("#" + CLAN_TAG);
+        Clan clan = clashAPI.getClan("#" + CLAN_TAG);
 
         assertNotNull(clan);
         assertEquals(clan.getName(), "Amnésia");
@@ -69,22 +67,18 @@ public class ClashAPITest extends TestCase
 
     public void testPlayer404() throws Exception
     {
-        try
-        {
+        try {
             clashAPI.getPlayer("404");
-        }
-        catch (NotFoundException e) { return; }
+        } catch (NotFoundException e) { return; }
 
         fail();
     }
 
     public void testClan404() throws Exception
     {
-        try
-        {
+        try {
             clashAPI.getClan("404");
-        }
-        catch (NotFoundException e) { return; }
+        } catch (NotFoundException e) { return; }
 
         fail();
     }
