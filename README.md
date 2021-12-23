@@ -1,6 +1,11 @@
 ![ClashAPI logo](/src/main/resources/logo.png)
 
-[![Java CI](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml/badge.svg?branch=master&event=push)](https://github.com/Lycoon/clash-api/actions/workflows/build-ci.yml)
+<p align="center">
+  <a href="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml">
+    <img alt="Check CI status" src="https://github.com/Lycoon/clash-api/actions/workflows/check-ci.yml/badge.svg?branch=dev">
+  </a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/Lycoon/clash-api">
+</p>
 
 ClashAPI is a very simple yet very complete Kotlin/Java wrapper for the Clash of Clans mobile game API. It allows developers to easily do requests to the game API without bothering about JSON and HTTP handling.
 
@@ -27,8 +32,8 @@ In order to make calls to the Clash of Clans API, Supercell (developer of the ga
 Though this token is linked to the IP address you gave, I would advise **not to hardcode it** inside your code, for safety sake. Paste it in a separate file that you would access from your code. It will prevent your token being spread if you ever share your files.
 
 ## Dependencies
-* GSON `2.8.8`
-* OkHttp `4.9.2`
+* Kotlin serialization `1.3.1`
+* OkHttp `4.9.3`
 
 ## Disclaimer
 *This material is unofficial and is not endorsed by Supercell. For more information see Supercell's Fan Content Policy: www.supercell.com/fan-content-policy.*

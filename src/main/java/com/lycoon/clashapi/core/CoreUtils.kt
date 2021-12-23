@@ -3,6 +3,7 @@ package com.lycoon.clashapi.core
 import com.lycoon.clashapi.core.exception.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import okhttp3.Response
 import java.io.IOException
 
