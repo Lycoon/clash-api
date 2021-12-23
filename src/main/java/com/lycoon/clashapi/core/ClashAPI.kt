@@ -4,17 +4,19 @@ import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
 import com.lycoon.clashapi.core.CoreUtils.checkResponse
 import com.lycoon.clashapi.core.exception.ClashAPIException
-import com.lycoon.clashapi.models.clan.Clan
-import com.lycoon.clashapi.models.clan.ClanMember
-import com.lycoon.clashapi.models.clan.ClanMemberList
-import com.lycoon.clashapi.models.common.TokenResponse
+import com.lycoon.clashapi.models.clan.*
+import com.lycoon.clashapi.models.common.*
 import com.lycoon.clashapi.models.league.League
 import com.lycoon.clashapi.models.league.LeagueList
-import com.lycoon.clashapi.models.player.Player
+import com.lycoon.clashapi.models.league.LeagueSeason
+import com.lycoon.clashapi.models.league.LeagueSeasonList
+import com.lycoon.clashapi.models.player.*
 import com.lycoon.clashapi.models.war.War
 import com.lycoon.clashapi.models.war.Warlog
 import com.lycoon.clashapi.models.war.WarlogEntry
+import com.lycoon.clashapi.models.warleague.WarLeague
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
+import com.lycoon.clashapi.models.warleague.WarLeagueList
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -51,7 +53,7 @@ class ClashAPI(private val token: String) {
     }
 
     /**
-     * Returns the CWL group in which the clan with the given tag is.
+     * Returns the warleague group in which the clan with the given tag is.
      *
      * @param clanTag `String` of the clan's tag
      * @return WarLeagueGroup
@@ -61,13 +63,14 @@ class ClashAPI(private val token: String) {
      * @throws ClashAPIException if the request to the game API failed
      */
     @Throws(IOException::class, ClashAPIException::class)
-    fun getCWLGroup(clanTag: String): WarLeagueGroup {
-        val res = get("/clans/${formatTag(clanTag)}/currentwar/leaguegroup")
+    fun getWarLeagueGroup(clanTag: String): WarLeagueGroup {
+        val tag = formatTag(clanTag)
+        val res = get("/clans/$tag/currentwar/leaguegroup")
         return deserialize(res)
     }
 
     /**
-     * Returns the individual CWL war associated to the given war tag.
+     * Returns an individual warleague war associated to the given war tag.
      * You can obtain individual CWL war tags from:
      * `ClashAPI.getCWLGroup(clanTag).getRounds(index).getWarTags(index)`
      *
@@ -79,8 +82,9 @@ class ClashAPI(private val token: String) {
      * @throws ClashAPIException if the request to the game API failed
      */
     @Throws(IOException::class, ClashAPIException::class)
-    fun getCWLWar(warTag: String): War {
-        val res = get("/clanwarleagues/wars/${formatTag(warTag)}")
+    fun getWarLeagueWar(warTag: String): War {
+        val tag = formatTag(warTag)
+        val res = get("/clanwarleagues/wars/$tag")
         return deserialize(res)
     }
 
@@ -173,6 +177,7 @@ class ClashAPI(private val token: String) {
      * Returns whether the given player tag is verified or not.
      *
      * @param playerTag `String` of the player's tag
+     * @param token `String` of the player token
      * @return a boolean
      *
      * @throws IOException if the deserialization failed
@@ -199,5 +204,210 @@ class ClashAPI(private val token: String) {
     fun getLeagues(): List<League> {
         val res = get("/leagues")
         return deserialize<LeagueList>(res).items
+    }
+
+    /**
+     * Returns league season rankings
+     *
+     * @param leagueId `String` of the league id
+     * @param seasonId `String` of the season id
+     * @return List<PlayerRanking>
+     * @see PlayerRanking
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getLeagueSeasonRankings(leagueId: String, seasonId: String): List<PlayerRanking> {
+        val res = get("/leagues/$leagueId/seasons/$seasonId")
+        return deserialize<PlayerRankingList>(res).items
+    }
+
+    /**
+     * Returns league information
+     *
+     * @param leagueId `String` of the league id
+     * @return League
+     * @see League
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getLeague(leagueId: String): League {
+        val res = get("/leagues/$leagueId")
+        return deserialize(res)
+    }
+
+    /**
+     * Returns league seasons
+     *
+     * @param leagueId `String` of the league id
+     * @return List<LeagueSeason>
+     * @see LeagueSeason
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getLeagueSeasons(leagueId: String): List<LeagueSeason> {
+        val res = get("/leagues/$leagueId/seasons")
+        return deserialize<LeagueSeasonList>(res).items
+    }
+
+    /**
+     * Returns warleague information
+     *
+     * @param leagueId `String` of the league id
+     * @return WarLeague
+     * @see WarLeague
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getWarLeague(leagueId: String): WarLeague {
+        val res = get("/warleagues/$leagueId")
+        return deserialize(res)
+    }
+
+    /**
+     * Returns all warleagues
+     *
+     * @return List<WarLeague>
+     * @see WarLeague
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getWarLeagues(): List<WarLeague> {
+        val res = get("/warleagues")
+        return deserialize<WarLeagueList>(res).items
+    }
+
+    /**
+     * Returns clan rankings for a specific location
+     *
+     * @param locationId `String` of the location id
+     * @return List<ClanRanking>
+     * @see ClanRanking
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getClanRankings(locationId: String): List<ClanRanking> {
+        val res = get("/locations/${locationId}/rankings/clans")
+        return deserialize<ClanRankingList>(res).items
+    }
+
+    /**
+     * Returns clan versus rankings for a specific location
+     *
+     * @param locationId `String` of the location id
+     * @return List<ClanVersusRanking>
+     * @see ClanVersusRanking
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getClanVersusRankings(locationId: String): List<ClanVersusRanking> {
+        val res = get("/locations/${locationId}/rankings/clans-versus")
+        return deserialize<ClanVersusRankingList>(res).items
+    }
+
+    /**
+     * Returns player rankings for a specific location
+     *
+     * @param locationId `String` of the location id
+     * @return List<PlayerRanking>
+     * @see PlayerRanking
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getPlayerRankings(locationId: String): List<PlayerRanking> {
+        val res = get("/locations/${locationId}/rankings/players")
+        return deserialize<PlayerRankingList>(res).items
+    }
+
+    /**
+     * Returns player versus rankings for a specific location
+     *
+     * @param locationId `String` of the location id
+     * @return List<PlayerVersusRanking>
+     * @see PlayerVersusRanking
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getPlayerVersusRankings(locationId: String): List<PlayerVersusRanking> {
+        val res = get("/locations/${locationId}/rankings/players-versus")
+        return deserialize<PlayerVersusRankingList>(res).items
+    }
+
+    /**
+     * Returns locations
+     *
+     * @return List<Location>
+     * @see Location
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getLocations(): List<Location> {
+        val res = get("/locations")
+        return deserialize<LocationList>(res).items
+    }
+
+    /**
+     * Returns specific location
+     *
+     * @param locationId `String` of the location id
+     * @return Location
+     * @see Location
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getLocation(locationId: String): Location {
+        val res = get("/locations/$locationId")
+        return deserialize(res)
+    }
+
+    /**
+     * Returns player labels
+     *
+     * @return List<Label>
+     * @see Label
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getPlayerLabels(): List<Label> {
+        val res = get("/labels/players")
+        return deserialize<LabelList>(res).items
+    }
+
+    /**
+     * Returns clan labels
+     *
+     * @return List<Label>
+     * @see Label
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getClanLabels(): List<Label> {
+        val res = get("/labels/clans")
+        return deserialize<LabelList>(res).items
     }
 }
