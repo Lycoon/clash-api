@@ -8,5 +8,5 @@ data class Location(
     val id: Int,
     val name: String,
     val isCountry: Boolean,
-    val countryCode: String
+    val countryCode: String? = null // if isCountry false
 )
