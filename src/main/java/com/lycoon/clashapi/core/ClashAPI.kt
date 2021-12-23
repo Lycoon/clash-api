@@ -6,10 +6,13 @@ import com.lycoon.clashapi.core.CoreUtils.checkResponse
 import com.lycoon.clashapi.core.exception.ClashAPIException
 import com.lycoon.clashapi.models.clan.Clan
 import com.lycoon.clashapi.models.clan.ClanMember
+import com.lycoon.clashapi.models.clan.ClanMemberList
 import com.lycoon.clashapi.models.common.TokenResponse
 import com.lycoon.clashapi.models.league.League
+import com.lycoon.clashapi.models.league.LeagueList
 import com.lycoon.clashapi.models.player.Player
 import com.lycoon.clashapi.models.war.War
+import com.lycoon.clashapi.models.war.Warlog
 import com.lycoon.clashapi.models.war.WarlogEntry
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 import okhttp3.*
@@ -27,7 +30,7 @@ class ClashAPI(private val token: String) {
     private fun getBaseRequest(suffix: String): Request.Builder {
         return Request.Builder()
                 .header("authorization", "Bearer $token")
-                .url(CoreUtils.URL + CoreUtils.API_VERSION + "/" + suffix)
+                .url(CoreUtils.URL + CoreUtils.API_VERSION + suffix)
     }
 
     @Throws(IOException::class, ClashAPIException::class)
@@ -59,7 +62,7 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getCWLGroup(clanTag: String): WarLeagueGroup {
-        val res = get("clans/${formatTag(clanTag)}/currentwar/leaguegroup")
+        val res = get("/clans/${formatTag(clanTag)}/currentwar/leaguegroup")
         return deserialize(res)
     }
 
@@ -77,7 +80,7 @@ class ClashAPI(private val token: String) {
      */
     @Throws(IOException::class, ClashAPIException::class)
     fun getCWLWar(warTag: String): War {
-        val res = get("clanwarleagues/wars/${formatTag(warTag)}")
+        val res = get("/clanwarleagues/wars/${formatTag(warTag)}")
         return deserialize(res)
     }
 
@@ -94,8 +97,8 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getWarlog(clanTag: String): List<WarlogEntry> {
         val tag = formatTag(clanTag)
-        val res = get("clans/$tag/warlog")
-        return deserialize(res)
+        val res = get("/clans/$tag/warlog")
+        return deserialize<Warlog>(res).items
     }
 
     /**
@@ -111,7 +114,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getCurrentWar(clanTag: String): War {
         val tag = formatTag(clanTag)
-        val res = get("clans/$tag/currentwar")
+        val res = get("/clans/$tag/currentwar")
         return deserialize(res)
     }
 
@@ -128,7 +131,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getClan(clanTag: String): Clan {
         val tag = formatTag(clanTag)
-        val res = get("clans/$tag")
+        val res = get("/clans/$tag")
         return deserialize(res)
     }
 
@@ -145,8 +148,8 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getClanMembers(clanTag: String): List<ClanMember> {
         val tag = formatTag(clanTag)
-        val res = get("clans/$tag/members")
-        return deserialize(res)
+        val res = get("/clans/$tag/members")
+        return deserialize<ClanMemberList>(res).items
     }
 
     /**
@@ -162,7 +165,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getPlayer(playerTag: String): Player {
         val tag = formatTag(playerTag)
-        val res = get("players/$tag")
+        val res = get("/players/$tag")
         return deserialize(res)
     }
 
@@ -178,7 +181,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun isVerifiedPlayer(playerTag: String, token: String): Boolean {
         val tag = formatTag(playerTag)
-        val res = post("players/$tag/verifytoken", getTokenVerificationBody(token))
+        val res = post("/players/$tag/verifytoken", getTokenVerificationBody(token))
 
         return deserialize<TokenResponse>(res).status == "ok"
     }
@@ -195,6 +198,6 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getLeagues(): List<League> {
         val res = get("/leagues")
-        return deserialize(res)
+        return deserialize<LeagueList>(res).items
     }
 }
