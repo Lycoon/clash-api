@@ -79,7 +79,7 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
     }*/
 
     /*fun testWarLeagueWar() {
-        val warLeagueWar = clashAPI.getWarLeagueWar("#2J8CP2JYQ")
+        val warLeagueWar = clashAPI.getWarLeagueWar("#0")
         assertNotNull(warLeagueWar)
         print(warLeagueWar.toString())
     }*/

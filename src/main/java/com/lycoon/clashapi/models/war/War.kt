@@ -4,12 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class War(
-    val clan: WarClan,
+    val clan: WarClan? = null, // if warTag from warleague is #0 (not found)
     val teamSize: Int,
     val attacksPerMember: Int? = null, // if from a warleague round war
-    val opponent: WarClan,
-    val startTime: String,
+    val opponent: WarClan? = null, // if warTag from warleague is #0 (not found)
+    val startTime: String? = null, // if warTag from warleague is #0 (not found)
     val state: String,
-    val endTime: String,
-    val preparationStartTime: String
+    val endTime: String? = null, // if warTag from warleague is #0 (not found)
+    val preparationStartTime: String? = null // if warTag from warleague is #0 (not found)
 )
