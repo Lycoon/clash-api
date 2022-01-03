@@ -72,6 +72,12 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         assertNotNull(clanLabels)
     }
 
+    /*fun testWarLeagueGroup() {
+        val warLeagueGroup = clashAPI.getWarLeagueGroup("#C0GJPLJG")
+        assertNotNull(warLeagueGroup)
+        print(warLeagueGroup.toString())
+    }*/
+
     fun testPlayerWithoutSharp() {
         val player = clashAPI.getPlayer(PLAYER_TAG)
         assertNotNull(player)
