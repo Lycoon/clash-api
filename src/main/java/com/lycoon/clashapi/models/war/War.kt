@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class War(
     val clan: WarClan,
     val teamSize: Int,
-    val attacksPerMember: Int,
+    val attacksPerMember: Int? = null, // if from a warleague round war
     val opponent: WarClan,
     val startTime: String,
     val state: String,

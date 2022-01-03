@@ -78,6 +78,12 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         print(warLeagueGroup.toString())
     }*/
 
+    /*fun testWarLeagueWar() {
+        val warLeagueWar = clashAPI.getWarLeagueWar("#2J8CP2JYQ")
+        assertNotNull(warLeagueWar)
+        print(warLeagueWar.toString())
+    }*/
+
     fun testPlayerWithoutSharp() {
         val player = clashAPI.getPlayer(PLAYER_TAG)
         assertNotNull(player)

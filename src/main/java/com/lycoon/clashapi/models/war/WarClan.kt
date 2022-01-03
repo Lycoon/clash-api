@@ -12,6 +12,6 @@ data class WarClan(
     val clanLevel: Int,
     val attacks: Int,
     val stars: Int,
-    val expEarned: Int,
+    val expEarned: Int? = null, // if from a warleague round war
     val members: List<WarMember>
 )
