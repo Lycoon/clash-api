@@ -1,8 +1,8 @@
 package com.lycoon.clashapi.core
 
-import com.lycoon.clashapi.core.CoreUtils.deserialize
-import com.lycoon.clashapi.core.CoreUtils.formatTag
 import com.lycoon.clashapi.core.CoreUtils.checkResponse
+import com.lycoon.clashapi.core.CoreUtils.formatTag
+import com.lycoon.clashapi.core.Token.KeyHandler
 import com.lycoon.clashapi.core.exception.ClashAPIException
 import com.lycoon.clashapi.models.clan.*
 import com.lycoon.clashapi.models.common.*
@@ -17,18 +17,40 @@ import com.lycoon.clashapi.models.war.WarlogEntry
 import com.lycoon.clashapi.models.warleague.WarLeague
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 import com.lycoon.clashapi.models.warleague.WarLeagueList
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import kotlinx.serialization.decodeFromString
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.rmi.UnexpectedException
+
 
 /**
  * Create an instance of this class to start using the API.<br></br>
  *
  * Are you lost? Check the [README](https://github.com/Lycoon/clash-api) to see what ClashAPI is all about.
  */
-class ClashAPI(private val token: String) {
-    private val http: OkHttpClient = OkHttpClient()
+class ClashAPI() {
+    private var token: String = ""
+    private var http: OkHttpClient = OkHttpClient()
+
+    private val log: Logger = LoggerFactory.getLogger(javaClass)
+    constructor(username: String, password: String) : this() {
+        if (token == "") {
+            val keyHandler = KeyHandler()
+            token = keyHandler.getValidKeys(username, password)[0]
+            if (token != "") {
+                log.info("API token generated successfully")
+            } else {
+                throw UnexpectedException("Unexpected error uncounted while making keys for: $username")
+            }
+        }
+        http = OkHttpClient()
+    }
+
+
     private fun getBaseRequest(suffix: String): Request.Builder {
         return Request.Builder()
                 .header("authorization", "Bearer $token")
@@ -47,7 +69,7 @@ class ClashAPI(private val token: String) {
         return checkResponse(res)
     }
 
-    private fun getTokenVerificationBody(token: String) : RequestBody {
+    private fun getTokenVerificationBody(token: String): RequestBody {
         val contentType: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
         return "{\"token\":\"$token\"}".toRequestBody(contentType)
     }
@@ -409,5 +431,12 @@ class ClashAPI(private val token: String) {
     fun getClanLabels(): List<Label> {
         val res = get("/labels/clans")
         return deserialize<LabelList>(res).items
+    }
+
+    companion object {
+        @Throws(IOException::class)
+        inline fun <reified T> deserialize(res: Response): T {
+            return CoreUtils.json.decodeFromString(res.body?.string() ?: "")
+        }
     }
 }
