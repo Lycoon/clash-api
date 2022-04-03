@@ -1,6 +1,7 @@
 package com.lycoon.clashapi.core
 
 import com.lycoon.clashapi.core.CoreUtils.checkResponse
+import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
 import com.lycoon.clashapi.core.Token.KeyHandler
 import com.lycoon.clashapi.core.exception.ClashAPIException
@@ -433,10 +434,4 @@ class ClashAPI() {
         return deserialize<LabelList>(res).items
     }
 
-    companion object {
-        @Throws(IOException::class)
-        inline fun <reified T> deserialize(res: Response): T {
-            return CoreUtils.json.decodeFromString(res.body?.string() ?: "")
-        }
-    }
 }
