@@ -13,7 +13,7 @@ data class Player(
     val attackWins: Int,
     val defenseWins: Int,
     val townHallLevel: Int,
-    val townHallWeaponLevel: Int,
+    val townHallWeaponLevel: Int? = null,
     val versusBattleWins: Int,
     val legendStatistics: PlayerLegendStatistics? = null,
     val troops: List<Troop>,
