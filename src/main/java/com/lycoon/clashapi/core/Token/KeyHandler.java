@@ -1,7 +1,6 @@
 package com.lycoon.clashapi.core.Token;
 
 import com.google.gson.Gson;
-import com.lycoon.clashapi.core.exception.AuthException;
 import com.lycoon.clashapi.core.exception.IncorrectLoginCredentialException;
 
 import java.io.BufferedReader;
@@ -11,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class KeyHandler {
 
@@ -24,7 +24,7 @@ public class KeyHandler {
      * @param username username of the user
      * @param password password associated with the above username
      * @return an Existing Keys available for the account
-     * @throws AuthException thrown on wrong username and password
+     * @throws IncorrectLoginCredentialException thrown on wrong username and password
      * @throws IOException thrown by gson
      */
     private ExistingKeyModel mapKeys(String username, String password) throws IncorrectLoginCredentialException, IOException {
@@ -37,7 +37,7 @@ public class KeyHandler {
      * @param keys array of keys present for the user
      * @param username username of the user
      * @param password password associated with the username
-     * @throws AuthException thrown on wrong username and password
+     * @throws IncorrectLoginCredentialException thrown on wrong username and password
      */
     private void revokeKeys(ExistingKeyModel.Key[] keys, String username, String password) throws IncorrectLoginCredentialException {
         new KeyHttpRequest().deleteAllKeys(keys, username, password);
@@ -58,7 +58,7 @@ public class KeyHandler {
      * @param username username of the user
      * @param password password associated with the above username
      * @return a list of valid keys
-     * @throws AuthException thrown on wrong username and password
+     * @throws IncorrectLoginCredentialException thrown on wrong username and password
      * @throws IOException thrown by gson
      */
 
@@ -68,10 +68,8 @@ public class KeyHandler {
         List<String> validKeys = new ArrayList<>();
 
         Arrays.stream(existingKeyModel.getKeys()).forEach(keyObj -> {
-            Arrays.stream(keyObj.getIps()).forEach(ips -> {
-                if (ips.equalsIgnoreCase(ip))
-                    validKeys.add(keyObj.getKey());
-            });
+            List<String> collect = Arrays.stream(keyObj.getIps()).filter(i -> i.equalsIgnoreCase(ip)).collect(Collectors.toList());
+            validKeys.addAll(collect);
         });
 
         if (validKeys.isEmpty()) {
