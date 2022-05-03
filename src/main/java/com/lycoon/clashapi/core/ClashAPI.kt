@@ -45,9 +45,14 @@ class ClashAPI() {
             if (token != "") {
                 log.info("API token generated successfully")
             } else {
-                throw UnexpectedException("Unexpected error uncounted while making keys for: $username")
+                throw UnexpectedException("Unexpected error encountered while making keys for: $username")
             }
         }
+        http = OkHttpClient()
+    }
+
+    constructor(token: String) : this(){
+        this.token = token
         http = OkHttpClient()
     }
 
