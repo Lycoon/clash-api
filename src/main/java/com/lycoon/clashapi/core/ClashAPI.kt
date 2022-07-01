@@ -4,6 +4,7 @@ import com.lycoon.clashapi.core.CoreUtils.checkResponse
 import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
 import com.lycoon.clashapi.core.Token.KeyHandler
+import com.lycoon.clashapi.core.Token.MutexList
 import com.lycoon.clashapi.core.exception.ClashAPIException
 import com.lycoon.clashapi.models.clan.*
 import com.lycoon.clashapi.models.common.*
@@ -20,7 +21,6 @@ import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 import com.lycoon.clashapi.models.warleague.WarLeagueList
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import kotlinx.serialization.decodeFromString
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -34,33 +34,66 @@ import java.rmi.UnexpectedException
  * Are you lost? Check the [README](https://github.com/Lycoon/clash-api) to see what ClashAPI is all about.
  */
 class ClashAPI() {
-    private var token: String = ""
+    companion object {
+        private var TOKEN_LIST: MutexList<String> = MutexList()
+    }
+
     private var http: OkHttpClient = OkHttpClient()
 
     private val log: Logger = LoggerFactory.getLogger(javaClass)
+
     constructor(username: String, password: String) : this() {
-        if (token == "") {
-            val keyHandler = KeyHandler()
-            token = keyHandler.getValidKeys(username, password)[0]
-            if (token != "") {
-                log.info("API token generated successfully")
-            } else {
-                throw UnexpectedException("Unexpected error encountered while making keys for: $username")
+        if (TOKEN_LIST.isEmpty()) {
+            registerKeys(username, password)
+        }
+        http = OkHttpClient()
+    }
+
+    private fun registerKeys(username: String, password: String) {
+        val keyHandler = KeyHandler()
+        val s = keyHandler.getValidKeys(username, password)
+        addKeys(s);
+        if (TOKEN_LIST.isEmpty()) {
+            throw UnexpectedException("Unexpected error encountered while making keys for: $username")
+        }
+        log.info("Loaded ${TOKEN_LIST.size} keys")
+    }
+
+    constructor(creds: List<Credentials>) : this() {
+        if (TOKEN_LIST.isEmpty()){
+            for (cred in creds) {
+                registerKeys(cred.email, cred.password)
             }
         }
         http = OkHttpClient()
     }
 
-    constructor(token: String) : this(){
-        this.token = token
+    constructor(creds: Credentials) : this() {
         http = OkHttpClient()
     }
 
+    constructor(token: String) : this() {
+        TOKEN_LIST.add(token)
+        http = OkHttpClient()
+    }
+
+    @Synchronized private fun setKeyList(list: List<String>) {
+        TOKEN_LIST = MutexList<String>(list)
+    }
+
+    @Synchronized private fun addKeys(list: List<String>) {
+        getKeyList().addAll(list)
+    }
+
+    @Synchronized private fun getKeyList(): MutexList<String> {
+        return TOKEN_LIST
+    }
 
     private fun getBaseRequest(suffix: String): Request.Builder {
+        val token = getKeyList().cycle()
         return Request.Builder()
-                .header("authorization", "Bearer $token")
-                .url(CoreUtils.URL + CoreUtils.API_VERSION + suffix)
+            .header("authorization", "Bearer $token")
+            .url(CoreUtils.URL + CoreUtils.API_VERSION + suffix)
     }
 
     @Throws(IOException::class, ClashAPIException::class)

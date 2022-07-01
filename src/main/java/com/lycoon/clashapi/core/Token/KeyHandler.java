@@ -62,23 +62,26 @@ public class KeyHandler {
      * @throws IOException thrown by gson
      */
 
-    public List<String> getValidKeys(String username, String password) throws IncorrectLoginCredentialException, IOException {
+    public List<String> getValidKeys(String username, String password) throws IOException, IncorrectLoginCredentialException {
         String ip = getIP();
         ExistingKeyModel existingKeyModel = mapKeys(username, password);
         List<String> validKeys = new ArrayList<>();
 
+        System.out.println(Arrays.toString(existingKeyModel.getKeys()));
         Arrays.stream(existingKeyModel.getKeys()).forEach(keyObj -> {
-            List<String> collect = Arrays.stream(keyObj.getIps()).filter(i -> i.equalsIgnoreCase(ip)).collect(Collectors.toList());
-            validKeys.addAll(collect);
+            Arrays.stream(keyObj.getIps()).forEach(ips -> {
+                if (ips.equalsIgnoreCase(ip))
+                    validKeys.add(keyObj.getKey());
+            });
         });
 
         if (validKeys.isEmpty()) {
             //Delete all the keys when no key is valid
-            if (existingKeyModel.getKeys().length >= 10) {
-                revokeKeys(existingKeyModel.getKeys(), username, password);
+            revokeKeys(existingKeyModel.getKeys(), username, password);
+            for (int i = 0; i < 10; i++) {
+                String createdKeys = new KeyHttpRequest().createKeys(username, password, ip);
+                validKeys.add(mapKeys(createdKeys).getKeys().getKey());
             }
-            String createdKeys = new KeyHttpRequest().createKeys(username, password, ip);
-            validKeys.add(mapKeys(createdKeys).getKeys().getKey());
         }
         return validKeys;
     }
