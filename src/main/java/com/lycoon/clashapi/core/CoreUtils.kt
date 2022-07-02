@@ -36,6 +36,18 @@ object CoreUtils {
     }
 
     fun formatTag(tag: String): String {
-        return if (tag.startsWith("#")) tag.replace("#", "%23") else "%23$tag"
+        var tag = tag.toUpperCase()
+        if (!tag.startsWith("#")) {
+            tag = "#$tag"
+        }
+        if (checkTagWithRegex(tag)) {
+            return if (tag.startsWith("#")) tag.replace("#", "%23") else "%23$tag"
+        } else {
+            throw NotFoundException() // Throws a 404 exception as it's guaranteed to not be a tag
+        }
+    }
+
+    fun checkTagWithRegex(tag: String ): Boolean {
+        return tag.toUpperCase().matches("^#[PYLQGRJCUV0289]+$".toRegex())
     }
 }
