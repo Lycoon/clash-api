@@ -9,11 +9,11 @@ data class ClanMember(
     val tag: String,
     val name: String,
     val role: String,
-    val expLevel: Int,
-    val clanRank: Int,
-    val previousClanRank: Int,
-    val donations: Int,
-    val donationsReceived: Int,
-    val trophies: Int,
-    val versusTrophies: Int
+    val expLevel: Int = 0,
+    val clanRank: Int = 0,
+    val previousClanRank: Int = 0,
+    val donations: Int = 0,
+    val donationsReceived: Int = 0,
+    val trophies: Int = 0,
+    val versusTrophies: Int = 0
 )
