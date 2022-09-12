@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ClanMember(
     val league: League? = null,
-    val tag: String,
-    val name: String,
-    val role: String,
+    val tag: String? = null,
+    val name: String? = null,
+    val role: String? = null,
     val expLevel: Int = 0,
     val clanRank: Int = 0,
     val previousClanRank: Int = 0,

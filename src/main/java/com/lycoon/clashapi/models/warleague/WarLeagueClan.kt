@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WarLeagueClan(
-    val tag: String,
-    val clanLevel: Int,
-    val name: String,
+    val tag: String? = null,
+    val clanLevel: Int = 0,
+    val name: String? = null,
     val members: List<WarLeagueMember>,
-    val badgeUrls: BadgeUrls
+    val badgeUrls: BadgeUrls? = null
 )

@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WarlogEntry(
-    val clan: WarlogClan,
-    val teamSize: Int,
-    val opponent: WarlogClan,
-    val endTime: String,
+    val clan: WarlogClan? = null,
+    val teamSize: Int = 0,
+    val opponent: WarlogClan? = null,
+    val endTime: String? = null,
     val result: String? = null
 )
