@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Player(
-    val clan: PlayerClan?,
-    val league: League?,
+    val clan: PlayerClan? = null,
+    val league: League? = null,
     val role: String,
     var warPreference: String,
     val attackWins: Int,
@@ -15,7 +15,7 @@ data class Player(
     val townHallLevel: Int,
     val townHallWeaponLevel: Int = 0,
     val versusBattleWins: Int = 0,
-    val legendStatistics: PlayerLegendStatistics?,
+    val legendStatistics: PlayerLegendStatistics? = null,
     val troops: List<Troop>,
     val heroes: List<Troop>,
     val spells: List<Troop>,
