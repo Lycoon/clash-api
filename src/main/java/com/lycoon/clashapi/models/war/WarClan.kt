@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WarClan(
-    val destructionPercentage: Float,
-    val tag: String?, // if clan is not in war
-    val name: String?, // if clan is not in war
-    val badgeUrls: BadgeUrls,
-    val clanLevel: Int,
-    val attacks: Int,
-    val stars: Int,
-    val expEarned: Int?, // if from a warleague round war
+    val destructionPercentage: Float = 0f,
+    val tag: String? = null, // if clan is not in war
+    val name: String? = null, // if clan is not in war
+    val badgeUrls: BadgeUrls? = null,
+    val clanLevel: Int = 0,
+    val attacks: Int = 0,
+    val stars: Int = 0,
+    val expEarned: Int = 0, // if from a warleague round war
     val members: List<WarMember>?, // if clan is not in war
 )

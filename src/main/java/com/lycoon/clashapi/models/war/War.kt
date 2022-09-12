@@ -9,7 +9,7 @@ data class War(
     val attacksPerMember: Int = 0, // if from a warleague round war
     val opponent: WarClan? = null, // if warTag from warleague is #0 (not found)
     val startTime: String? = null, // if warTag from warleague is #0 (not found)
-    val state: String,
+    val state: String? = null,
     val endTime: String? = null, // if warTag from warleague is #0 (not found)
     val preparationStartTime: String? = null // if warTag from warleague is #0 (not found)
 )

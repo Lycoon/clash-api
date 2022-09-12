@@ -10,14 +10,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Clan(
-    val warLeague: WarLeague,
+    val warLeague: WarLeague? = null,
     val memberList: List<ClanMember>,
     val requiredVersusTrophies: Int = 0,
     val requiredTownhallLevel: Int = 0,
     val requiredTrophies: Int = 0,
     val clanVersusPoints: Int = 0,
-    val tag: String,
-    val isWarLogPublic: Boolean,
+    val tag: String? = null,
+    val isWarLogPublic: Boolean = false,
     val warFrequency: String, // UNKNOWN, ALWAYS, MORE_THAN_ONCE_PER_WEEK, ONCE_PER_WEEK, LESS_THAN_ONCE_PER_WEEK, NEVER, ANY
     val clanLevel: Int = 0,
     val warWinStreak: Int = 0,
@@ -27,10 +27,10 @@ data class Clan(
     val clanPoints: Int = 0,
     val chatLanguage: Language? = null,
     val labels: List<Label>,
-    val name: String,
+    val name: String? = null,
     val location: Location? = null,
-    val type: String,
+    val type: String? = null,
     val members: Int = 0,
-    val description: String,
-    val badgeUrls: BadgeUrls
+    val description: String? = null,
+    val badgeUrls: BadgeUrls? = null
 )
