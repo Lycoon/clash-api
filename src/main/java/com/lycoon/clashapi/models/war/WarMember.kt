@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 data class WarMember(
     val tag: String,
     val name: String,
-    val mapPosition: Int? = null,
-    val townhallLevel: Int? = null,
-    val opponentAttack: Int? = null,
-    val bestOpponentAttack: WarAttack? = null,
-    val attacks: List<WarAttack>? = null
+    val mapPosition: Int,
+    val townhallLevel: Int,
+    val opponentAttack: Int,
+    val bestOpponentAttack: WarAttack?,
+    val attacks: List<WarAttack>?
 )

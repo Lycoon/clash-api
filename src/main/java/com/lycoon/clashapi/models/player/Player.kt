@@ -6,16 +6,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Player(
-    val clan: PlayerClan? = null,
-    val league: League? = null,
+    val clan: PlayerClan?,
+    val league: League?,
     val role: String,
     var warPreference: String,
     val attackWins: Int,
     val defenseWins: Int,
     val townHallLevel: Int,
-    val townHallWeaponLevel: Int,
-    val versusBattleWins: Int,
-    val legendStatistics: PlayerLegendStatistics? = null,
+    val townHallWeaponLevel: Int = 0,
+    val versusBattleWins: Int = 0,
+    val legendStatistics: PlayerLegendStatistics?,
     val troops: List<Troop>,
     val heroes: List<Troop>,
     val spells: List<Troop>,
@@ -27,10 +27,10 @@ data class Player(
     val bestTrophies: Int,
     val donations: Int,
     val donationsReceived: Int,
-    val builderHallLevel: Int? = null,
-    val versusTrophies: Int,
-    val bestVersusTrophies: Int,
+    val builderHallLevel: Int = 0,
+    val versusTrophies: Int = 0,
+    val bestVersusTrophies: Int = 0,
     val warStars: Int,
     val achievements: List<Achievement>,
-    val versusBattleWinCount: Int
+    val versusBattleWinCount: Int = 0
 )
