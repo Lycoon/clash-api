@@ -10,5 +10,5 @@ data class WarMember(
     val townhallLevel: Int = 0,
     val opponentAttack: Int = 0,
     val bestOpponentAttack: WarAttack? = null,
-    val attacks: List<WarAttack>?
+    val attacks: List<WarAttack>? = emptyList()
 )
