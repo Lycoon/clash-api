@@ -185,7 +185,6 @@
             <configuration>
               <!-- Prevent gpg from using pinentry programs -->
               <gpgArguments>
-                <arg>--batch</arg>
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>
               </gpgArguments>
