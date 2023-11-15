@@ -1,4 +1,4 @@
-name: Check CI
+name: Check build
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
@@ -21,5 +20,5 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build with Maven
+      - name: Build
         run: mvn --batch-mode --update-snapshots -DskipTests verify
