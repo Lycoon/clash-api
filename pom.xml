@@ -3,18 +3,49 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.lycoon</groupId>
-  <artifactId>clashapi</artifactId>
+  <groupId>io.github.lycoon</groupId>
+  <artifactId>clash-api</artifactId>
   <version>3.0.2</version>
 
+  <!-- Project metadata -->
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Kotlin wrapper for Clash of Clans game API.</description>
+
+  <url>https://github.com/Lycoon/clash-api</url>
+  <licenses>
+    <license>
+      <name>GPL-3.0 License</name>
+      <url>https://github.com/Lycoon/clash-api/blob/dev/LICENSE</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Hugo "Lycoon" Bois</name>
+      <email>hugo.bois@hotmail.fr</email>
+      <organizationUrl>https://github.com/Lycoon</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/lycoon/clash-api.git</connection>
+    <developerConnection>scm:git:ssh://github.com:lycoon/clash-api.git</developerConnection>
+    <url>https://github.com/Lycoon/clash-api/tree/release</url>
+  </scm>
+
+  <!-- Distribution Management -->
   <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
     <repository>
-      <id>github</id>
-      <name>ClashAPI</name>
-      <url>https://maven.pkg.github.com/Lycoon/clash-api</url>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
 
+  <!-- Dependencies -->
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlinx</groupId>
@@ -41,8 +72,76 @@
     </dependency>
   </dependencies>
 
+
   <build>
     <plugins>
+      <!-- Maven Source plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Maven Javadoc plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- GPG Signing plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- Prevent gpg from using pinentry programs -->
+          <gpgArguments>
+            <arg>--pinentry-mode</arg>
+            <arg>loopback</arg>
+          </gpgArguments>
+        </configuration>
+      </plugin>
+
+      <!-- Sonatype Nexus Staging plugin -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <!-- Maven Kotlin plugin -->
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
@@ -75,6 +174,7 @@
     </plugins>
   </build>
 
+  <!-- Properties -->
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
