@@ -1,6 +1,7 @@
 package com.lycoon.clashapi.models.clan
 
 import com.lycoon.clashapi.models.league.League
+import com.lycoon.clashapi.models.player.Player
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,7 +9,7 @@ data class ClanMember(
     val league: League? = null,
     val tag: String? = null,
     val name: String? = null,
-    val role: String? = null,
+    val role: Player.Role,
     val expLevel: Int = 0,
     val clanRank: Int = 0,
     val previousClanRank: Int = 0,

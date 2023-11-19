@@ -10,5 +10,5 @@ data class Achievement(
     val target: Int = 0,
     val info: String? = null,
     val completionInfo: String? = null,
-    val village: String? = null
+    val village: Player.VillageType
 )

@@ -5,9 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Troop(
-    val name: String? = null,
     val level: Int = 0,
+    val name: String? = null,
     val maxLevel: Int = 0,
-    val village: String? = null,
-    @SerialName("superTroopIsActive") val isSuperTroopActive: Boolean? = false
+    val village: Player.VillageType,
+
+    @SerialName("superTroopIsActive")
+    val isSuperTroopActive: Boolean? = false
 )

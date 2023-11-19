@@ -4,19 +4,17 @@ import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
 import com.lycoon.clashapi.core.CoreUtils.checkResponse
 import com.lycoon.clashapi.core.exception.ClashAPIException
+import com.lycoon.clashapi.models.capital.CapitalRaidSeason
 import com.lycoon.clashapi.models.clan.*
 import com.lycoon.clashapi.models.common.*
 import com.lycoon.clashapi.models.league.League
-import com.lycoon.clashapi.models.league.LeagueList
 import com.lycoon.clashapi.models.league.LeagueSeason
-import com.lycoon.clashapi.models.league.LeagueSeasonList
 import com.lycoon.clashapi.models.player.*
 import com.lycoon.clashapi.models.war.War
 import com.lycoon.clashapi.models.war.Warlog
 import com.lycoon.clashapi.models.war.WarlogEntry
 import com.lycoon.clashapi.models.warleague.WarLeague
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
-import com.lycoon.clashapi.models.warleague.WarLeagueList
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -153,7 +151,24 @@ class ClashAPI(private val token: String) {
     fun getClanMembers(clanTag: String): List<ClanMember> {
         val tag = formatTag(clanTag)
         val res = get("/clans/$tag/members")
-        return deserialize<ClanMemberList>(res).items
+        return deserialize(res)
+    }
+
+    /**
+     * Returns the capital raid seasons of clan attached to the tag.
+     *
+     * @param clanTag `String` of the clan's tag
+     * @return List<CapitalRaidSeason>
+     * @see CapitalRaidSeason
+     *
+     * @throws IOException if the deserialization failed
+     * @throws ClashAPIException if the request to the game API failed
+     */
+    @Throws(IOException::class, ClashAPIException::class)
+    fun getCapitalRaidSeasons(clanTag: String): List<CapitalRaidSeason> {
+        val tag = formatTag(clanTag)
+        val res = get("/clans/$tag/capitalraidseasons")
+        return deserialize(res)
     }
 
     /**
@@ -203,7 +218,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getLeagues(): List<League> {
         val res = get("/leagues")
-        return deserialize<LeagueList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -220,7 +235,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getLeagueSeasonRankings(leagueId: String, seasonId: String): List<PlayerRanking> {
         val res = get("/leagues/$leagueId/seasons/$seasonId")
-        return deserialize<PlayerRankingList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -252,7 +267,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getLeagueSeasons(leagueId: String): List<LeagueSeason> {
         val res = get("/leagues/$leagueId/seasons")
-        return deserialize<LeagueSeasonList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -283,7 +298,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getWarLeagues(): List<WarLeague> {
         val res = get("/warleagues")
-        return deserialize<WarLeagueList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -299,7 +314,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getClanRankings(locationId: String): List<ClanRanking> {
         val res = get("/locations/${locationId}/rankings/clans")
-        return deserialize<ClanRankingList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -315,7 +330,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getClanVersusRankings(locationId: String): List<ClanVersusRanking> {
         val res = get("/locations/${locationId}/rankings/clans-versus")
-        return deserialize<ClanVersusRankingList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -331,7 +346,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getPlayerRankings(locationId: String): List<PlayerRanking> {
         val res = get("/locations/${locationId}/rankings/players")
-        return deserialize<PlayerRankingList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -347,7 +362,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getPlayerVersusRankings(locationId: String): List<PlayerVersusRanking> {
         val res = get("/locations/${locationId}/rankings/players-versus")
-        return deserialize<PlayerVersusRankingList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -362,7 +377,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getLocations(): List<Location> {
         val res = get("/locations")
-        return deserialize<LocationList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -393,7 +408,7 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getPlayerLabels(): List<Label> {
         val res = get("/labels/players")
-        return deserialize<LabelList>(res).items
+        return deserialize(res)
     }
 
     /**
@@ -408,6 +423,6 @@ class ClashAPI(private val token: String) {
     @Throws(IOException::class, ClashAPIException::class)
     fun getClanLabels(): List<Label> {
         val res = get("/labels/clans")
-        return deserialize<LabelList>(res).items
+        return deserialize(res)
     }
 }

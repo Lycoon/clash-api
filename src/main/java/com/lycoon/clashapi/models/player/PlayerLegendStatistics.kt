@@ -5,10 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerLegendStatistics(
-    val currentSeason: LegendSeasonResult? = null,
+    val previousBuilderBaseSeason: LegendSeasonResult? = null,
     val previousVersusSeason: LegendSeasonResult? = null,
-    val bestVersusSeason: LegendSeasonResult? = null,
+    val bestBuilderBaseSeason: LegendSeasonResult? = null,
+    val currentSeason: LegendSeasonResult? = null,
     val legendTrophies: Int = 0,
     val previousSeason: LegendSeasonResult? = null,
+    val bestVersusSeason: LegendSeasonResult? = null,
     val bestSeason: LegendSeasonResult? = null
 )

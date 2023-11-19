@@ -1,8 +1,17 @@
 import junit.framework.TestCase
 import com.lycoon.clashapi.core.ClashAPI
+import com.lycoon.clashapi.core.CoreUtils
 import java.io.FileInputStream
 import java.io.IOException
 import com.lycoon.clashapi.core.exception.NotFoundException
+import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.encoding.decodeStructure
 import java.util.*
 
 const val CLAN_TAG = "UPCU2098"
@@ -19,7 +28,23 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
             tokens.load(FileInputStream(CONFIG))
         } catch (ignored: IOException) {
         }
-        clashAPI = ClashAPI(tokens.getProperty("clash-of-clans"))
+        //clashAPI = ClashAPI(tokens.getProperty("clash-of-clans"))
+        clashAPI = ClashAPI("");
+    }
+
+    @Serializable
+    data class TestSerialize(
+        val result: TestEnum,
+        val teamSize: Int = 0,
+    )
+    {
+        enum class TestEnum {LOSE, WIN, TIE}
+    }
+
+    fun testDebug() {
+        val json = "{ \"result\": \"TIE\", \"teamSize\": 5 }"
+        val deserialized = CoreUtils.json.decodeFromString<TestSerialize>(json);
+        println(deserialized);
     }
 
     fun testWarlog() {

@@ -18,7 +18,7 @@ data class Clan(
     val clanVersusPoints: Int = 0,
     val tag: String? = null,
     val isWarLogPublic: Boolean = false,
-    val warFrequency: String, // UNKNOWN, ALWAYS, MORE_THAN_ONCE_PER_WEEK, ONCE_PER_WEEK, LESS_THAN_ONCE_PER_WEEK, NEVER, ANY
+    val warFrequency: Frequency,
     val clanLevel: Int = 0,
     val warWinStreak: Int = 0,
     val warWins: Int = 0,
@@ -29,8 +29,17 @@ data class Clan(
     val labels: List<Label>,
     val name: String? = null,
     val location: Location? = null,
-    val type: String? = null,
+    val type: InviteType,
     val members: Int = 0,
     val description: String? = null,
     val badgeUrls: BadgeUrls? = null
-)
+){
+    enum class Frequency {
+        UNKNOWN, ALWAYS, MORE_THAN_ONCE_PER_WEEK,
+        ONCE_PER_WEEK, LESS_THAN_ONCE_PER_WEEK, NEVER, ANY
+    }
+
+    enum class InviteType {
+        OPEN, INVITE_ONLY, CLOSED
+    }
+}
