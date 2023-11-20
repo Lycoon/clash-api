@@ -1,21 +1,22 @@
 package com.lycoon.clashapi.core
 
-abstract class QueryBuilder()
-{
-    fun build() {}
+data class BaseQuery(
+    val limit: Int = 0,
+    val after: String? = null,
+    val before: String? = null,
+)
 
-    private fun setLimit(limit: Int) { this.limit = limit; }
-    private fun setAfter(after: String) { this.after = after; }
-    private fun setBefore(before: String) { this.before = before; }
+data class ClanQuery(
+    val limit: Int = 0,
+    val after: String? = null,
+    val before: String? = null,
 
-    protected var limit: Int = 0;
-    protected var after: String = "";
-    protected var before: String = "";
-}
-
-abstract class WarlogQueryBuilder(): QueryBuilder()
-{
-    abstract fun setLimit(limit: Int);
-    fun setAfter(after: String) { this.after = after; }
-    fun setBefore(before: String) { this.before = before; }
-}
+    val name: String? = null,
+    val warFrequency: String? = null,
+    val locationId: Int = 0,
+    val minMembers: Int = 0,
+    val maxMembers: Int = 0,
+    val minClanPoints: Int = 0,
+    val minClanLevel: Int = 0,
+    val labelIds: String? = null
+)
