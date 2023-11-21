@@ -1,9 +1,9 @@
 package com.lycoon.clashapi.core
 
 import com.lycoon.clashapi.core.exception.*
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
 import okhttp3.Response
 import java.io.IOException
 
@@ -35,7 +35,23 @@ object CoreUtils {
         return json.decodeFromString(res.body?.string() ?: "")
     }
 
-    fun formatTag(tag: String): String {
+    /*
+     * There are situations where we get a list from the API, but we can't return it directly as List<T>
+     * because the API returns that list inside an object, within a single attribute named 'items' and
+     * Kotlinx Serialization doesn't support that.
+     *
+     * For the concerned routes, we unwrap the list to avoid duplicating useless single-attribute classes
+     * wrapping the list.
+     */
+    @Serializable
+    class WrapperList<T>(val items: List<T>)
+    fun <T> unwrapList(obj: WrapperList<T>): List<T> { return obj.items }
+
+    /*
+     * We don't want to invalidate a request if the provided tag doesn't start with a '#', so we prepend it
+     * if it's not present. The %23 is the URL encoded version of '#'.
+     */
+    fun formatTag(tag: String): String{
         return if (tag.startsWith("#")) tag.replace("#", "%23") else "%23$tag"
     }
 }
