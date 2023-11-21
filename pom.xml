@@ -5,7 +5,7 @@
 
   <groupId>io.github.lycoon</groupId>
   <artifactId>clash-api</artifactId>
-  <version>4.0.0</version>
+  <version>5.0.0</version>
 
   <!-- Project metadata -->
   <name>${project.groupId}:${project.artifactId}</name>
