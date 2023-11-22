@@ -31,7 +31,7 @@ data class Clan
     val location: Location? = null,           // nullable when using clan search
     val badgeUrls: BadgeUrls,
     val members: Int = 0,
-    val memberList: List<ClanMember>? = null, // nullable when using clan search
+    val memberList: List<ClanMember> = emptyList(), // nullable when using clan search
 
     @Deprecated("Use requiredBuilderBaseTrophies instead")
     val requiredVersusTrophies: Int = 0,

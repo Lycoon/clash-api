@@ -31,14 +31,14 @@ class ClanQueryParamsBuilder(
     override val limit: Int?     = null,
     override val after: String?  = null,
     override val before: String? = null,
-    val name: String?           = null,
-    val warFrequency: String?   = null,
-    val locationId: Int?        = null,
-    val minMembers: Int?        = null,
-    val maxMembers: Int?        = null,
-    val minClanPoints: Int?     = null,
-    val minClanLevel: Int?      = null,
-    val labelIds: String?       = null
+    val name: String?            = null,
+    val warFrequency: String?    = null,
+    val locationId: Int?         = null,
+    val minMembers: Int?         = null,
+    val maxMembers: Int?         = null,
+    val minClanPoints: Int?      = null,
+    val minClanLevel: Int?       = null,
+    val labelIds: String?        = null
 ) : QueryParamsBuilder(limit, after, before)
 {
     override fun build(): String
