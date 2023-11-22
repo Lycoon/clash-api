@@ -1,19 +1,9 @@
 import com.lycoon.clashapi.core.ClanQueryParamsBuilder
 import junit.framework.TestCase
 import com.lycoon.clashapi.core.ClashAPI
-import com.lycoon.clashapi.core.CoreUtils
-import com.lycoon.clashapi.core.SimpleQueryParamsBuilder
 import java.io.FileInputStream
 import java.io.IOException
-import com.lycoon.clashapi.core.exception.NotFoundException
-import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.encoding.decodeStructure
+import com.lycoon.clashapi.core.exceptions.NotFoundException
 import java.util.*
 
 const val CLAN_TAG = "UPCU2098"

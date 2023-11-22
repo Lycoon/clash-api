@@ -1,6 +1,6 @@
 package com.lycoon.clashapi.core
 
-import com.lycoon.clashapi.core.exception.*
+import com.lycoon.clashapi.core.exceptions.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
