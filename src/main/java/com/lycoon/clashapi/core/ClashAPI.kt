@@ -24,8 +24,11 @@ interface IClashAPI: IClanAPI, IPlayerAPI, ILeagueAPI, ILocationAPI, IGoldPassAP
  * Create an instance of this class to start using the API.<br></br>
  * Are you lost? Check the [README](https://github.com/Lycoon/clash-api) to see what ClashAPI is all about.
  */
-class ClashAPI(token: String) : ClashAPIClient(token), IClashAPI
+class ClashAPI : ClashAPIClient, IClashAPI
 {
+    constructor(token: String) : super(token)
+    constructor(email: String, password: String) : super(email, password)
+
     // ##############################################
     // ||                Clans API                 ||
     // ##############################################

@@ -7,9 +7,14 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.util.concurrent.CompletableFuture
 
-abstract class ClashAPIClient(private val token: String)
+abstract class ClashAPIClient
 {
+    constructor(token: String) { this.token = token }
+    constructor(email: String, password: String) {}
+
+    private var token: String = ""
     private val http: OkHttpClient = OkHttpClient()
+
     private fun getBaseRequest(suffix: String, queryParamsBuilder: QueryParamsBuilder? = null): Request.Builder
     {
         val query = queryParamsBuilder?.build() ?: ""
