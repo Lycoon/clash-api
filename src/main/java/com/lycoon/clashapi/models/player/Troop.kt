@@ -1,6 +1,7 @@
 package com.lycoon.clashapi.models.player
 
 import com.lycoon.clashapi.models.player.enums.Village
+import jdk.nashorn.internal.objects.annotations.Getter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,6 +13,6 @@ data class Troop
     val maxLevel: Int,
     val village: Village,
 
-    @SerialName("superTroopIsActive")
-    val isSuperTroopActive: Boolean? = false
+    @get:Getter(name = "isSuperTroopActive")
+    val superTroopIsActive: Boolean = false
 )

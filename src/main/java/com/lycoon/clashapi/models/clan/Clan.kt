@@ -8,8 +8,8 @@ import com.lycoon.clashapi.models.common.Label
 import com.lycoon.clashapi.models.common.Language
 import com.lycoon.clashapi.models.common.Location
 import com.lycoon.clashapi.models.league.CapitalLeague
-import com.lycoon.clashapi.models.war.WarMember
 import com.lycoon.clashapi.models.warleague.WarLeague
+import jdk.nashorn.internal.objects.annotations.Getter
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,16 +19,17 @@ data class Clan
     @SerialName("type")
     val inviteType: InviteType,
 
+    @get:Getter(name = "isFamilyFriendly")
+    val isFamilyFriendly: Boolean = false,
     val tag: String,
     val name: String,
     val clanLevel: Int = 0,
     val clanPoints: Int = 0,
     val description: String? = null,          // nullable when using clan search
-    val isFamilyFriendly: Boolean = false,
-    val chatLanguage: Language? = null,
+    val chatLanguage: Language? = null,       // nullable when not set
     val labels: List<Label>,
-    val location: Location? = null,
-    val badgeUrls: BadgeUrls? = null,
+    val location: Location? = null,           // nullable when using clan search
+    val badgeUrls: BadgeUrls,
     val members: Int = 0,
     val memberList: List<ClanMember>? = null, // nullable when using clan search
 
@@ -44,9 +45,10 @@ data class Clan
     val clanCapitalPoints: Int = 0,
     val clanCapital: ClanCapital? = null,     // nullable if clan has no capital
 
+    @get:Getter(name = "isWarLogPublic")
+    val isWarLogPublic: Boolean = false,
     val warLeague: WarLeague,
     val capitalLeague: CapitalLeague,
-    val isWarLogPublic: Boolean = false,
     val warFrequency: WarFrequency,
     val warWinStreak: Int = 0,
     val warWins: Int = 0,

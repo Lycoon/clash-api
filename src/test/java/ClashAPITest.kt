@@ -122,6 +122,11 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         assertEquals(player.tag, "#$PLAYER_TAG")
     }
 
+    fun testNewPlayer() {
+        val player = clashAPI.getPlayer("#GL2GLGLYR")
+        assertNotNull(player)
+    }
+
     fun testClanWithSharp() {
         val clan = clashAPI.getClan("#$CLAN_TAG")
         assertNotNull(clan)

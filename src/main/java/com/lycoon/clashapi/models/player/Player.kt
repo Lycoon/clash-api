@@ -7,6 +7,9 @@ import com.lycoon.clashapi.models.player.enums.Role
 import com.lycoon.clashapi.models.player.enums.WarPreference
 import kotlinx.serialization.Serializable
 
+typealias Spell = Troop
+typealias Hero = Troop
+
 @Serializable
 data class Player
 (
@@ -24,15 +27,15 @@ data class Player
     val warStars: Int = 0,
     val achievements: List<Achievement>,
     val labels: List<Label>,
-    val clanCapitalContributions: Int? = 0,
+    val clanCapitalContributions: Int = 0,
 
     val builderBaseLeague: BuilderBaseLeague? = null,
     val league: League? = null,
     val legendStatistics: PlayerLegendStatistics? = null,
 
     val troops: List<Troop>,
-    val heroes: List<Troop>,
-    val spells: List<Troop>,
+    val heroes: List<Hero>,
+    val spells: List<Spell>,
 
     val bestTrophies: Int = 0,
     val builderBaseTrophies: Int = 0,
@@ -45,5 +48,4 @@ data class Player
     val versusBattleWins: Int = 0,
     val donations: Int = 0,
     val donationsReceived: Int = 0,
-
 )
