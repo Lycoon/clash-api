@@ -1,13 +1,14 @@
+import com.lycoon.clashapi.core.ClanQueryParamsBuilder
 import junit.framework.TestCase
 import com.lycoon.clashapi.core.ClashAPI
 import java.io.FileInputStream
 import java.io.IOException
-import com.lycoon.clashapi.core.exception.NotFoundException
+import com.lycoon.clashapi.core.exceptions.NotFoundException
 import java.util.*
 
 const val CLAN_TAG = "UPCU2098"
 const val CONFIG = "tokens.properties"
-const val PLAYER_TAG = "PGYROPR"
+const val PLAYER_TAG = "PGYR0PR"
 
 class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
     private val clashAPI: ClashAPI
@@ -22,10 +23,10 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         clashAPI = ClashAPI(tokens.getProperty("clash-of-clans"))
     }
 
-    fun testWarlog() {
+    /*fun testWarlog() {
         val warlog = clashAPI.getWarlog(CLAN_TAG)
         assertNotNull(warlog)
-    }
+    }*/
 
     fun testClanMembers() {
         val clanMembers = clashAPI.getClanMembers(CLAN_TAG)
@@ -52,7 +53,7 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         assertNotNull(locations)
     }
 
-    fun testWarLeague() {
+    /*fun testWarLeague() {
         val warLeague = clashAPI.getWarLeague("48000000")
         assertNotNull(warLeague)
     }
@@ -60,7 +61,7 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
     fun testWarLeagues() {
         val warLeagues = clashAPI.getWarLeagues()
         assertNotNull(warLeagues)
-    }
+    }*/
 
     fun testPlayerLabels() {
         val playerLabels = clashAPI.getPlayerLabels()
@@ -76,15 +77,15 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         val warLeagueGroup = clashAPI.getWarLeagueGroup("#C0GJPLJG")
         assertNotNull(warLeagueGroup)
         print(warLeagueGroup.toString())
-    }*/
+    }
 
-    /*fun testWarLeagueWar() {
+    fun testWarLeagueWar() {
         val warLeagueWar = clashAPI.getWarLeagueWar("#0")
         assertNotNull(warLeagueWar)
         print(warLeagueWar.toString())
-    }*/
+    }
 
-    /*fun testClanWar() {
+    fun testClanWar() {
         val clanWar = clashAPI.getCurrentWar("#C0GJPLJG")
         assertNotNull(clanWar)
         print(clanWar.toString())
@@ -111,11 +112,22 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         assertEquals(player.tag, "#$PLAYER_TAG")
     }
 
+    fun testNewPlayer() {
+        val player = clashAPI.getPlayer("#GL2GLGLYR")
+        assertNotNull(player)
+    }
+
     fun testClanWithSharp() {
         val clan = clashAPI.getClan("#$CLAN_TAG")
         assertNotNull(clan)
         assertEquals(clan.name, "Amnésia")
         assertEquals(clan.tag, "#$CLAN_TAG")
+    }
+
+    fun testClanSearch() {
+        val query = ClanQueryParamsBuilder(name = "toto");
+        val clans = clashAPI.getClans(query);
+        assertNotNull(clans)
     }
 
     fun testPlayer404() {

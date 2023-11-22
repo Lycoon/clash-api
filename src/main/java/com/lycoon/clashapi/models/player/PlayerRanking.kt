@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerRanking(
-    val clan: PlayerRankingClan? = null,
     val league: League? = null,
+    val clan: PlayerRankingClan? = null,
     val attackWins: Int = 0,
     val defenseWins: Int = 0,
     val tag: String? = null,
