@@ -20,7 +20,8 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
             tokens.load(FileInputStream(CONFIG))
         } catch (ignored: IOException) {
         }
-        clashAPI = ClashAPI(tokens.getProperty("clash-of-clans"))
+        //clashAPI = ClashAPI(tokens.getProperty("clash-of-clans"))
+        clashAPI = ClashAPI(tokens.getProperty("email"), tokens.getProperty("password"))
     }
 
     /*fun testWarlog() {

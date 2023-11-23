@@ -2,7 +2,10 @@ package com.lycoon.clashapi.core
 
 import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.formatTag
+import com.lycoon.clashapi.core.CoreUtils.getRequestBody
 import com.lycoon.clashapi.core.CoreUtils.unwrapList
+import com.lycoon.clashapi.core.auth.dtos.TokenValidation
+import com.lycoon.clashapi.core.auth.dtos.TokenValidationResponse
 import com.lycoon.clashapi.core.interfaces.*
 import com.lycoon.clashapi.models.capital.CapitalRaidSeason
 import com.lycoon.clashapi.models.capital.CapitalRanking
@@ -18,8 +21,6 @@ import com.lycoon.clashapi.models.war.WarlogEntry
 import com.lycoon.clashapi.models.warleague.WarLeague
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 
-interface IClashAPI: IClanAPI, IPlayerAPI, ILeagueAPI, ILocationAPI, IGoldPassAPI, ILabelAPI
-
 /**
  * Create an instance of this class to start using the API.<br></br>
  * Are you lost? Check the [README](https://github.com/Lycoon/clash-api) to see what ClashAPI is all about.
@@ -27,6 +28,7 @@ interface IClashAPI: IClanAPI, IPlayerAPI, ILeagueAPI, ILocationAPI, IGoldPassAP
 class ClashAPI : ClashAPIClient, IClashAPI
 {
     constructor(token: String) : super(token)
+    constructor(tokens: List<String>) : super(tokens)
     constructor(email: String, password: String) : super(email, password)
 
     // ##############################################
@@ -102,8 +104,8 @@ class ClashAPI : ClashAPIClient, IClashAPI
     override fun isVerifiedPlayer(playerTag: String, token: String): Boolean
     {
         val tag = formatTag(playerTag)
-        val res = post("/players/$tag/verifytoken", getTokenVerificationBody(token))
-        return deserialize<TokenResponse>(res).status == "ok"
+        val res = post("/players/$tag/verifytoken", getRequestBody(TokenValidation(token)))
+        return deserialize<TokenValidationResponse>(res).status == "ok"
     }
 
     // ##############################################
