@@ -22,14 +22,6 @@ class KeyManager
         return URL(IP_CHECKER_URL).readText().dropLast(1)
     }
 
-    private fun getKeyCreation(ips: List<String>): KeyCreation {
-        return KeyCreation(
-            name = "ClashAPI Key",
-            description = "This key has been automatically generated because an instance of ClashAPI has been created with these account credentials.",
-            cidrRanges = ips
-        )
-    }
-
     /**
      * Fetches the current keys from the developer
      * @param client The OkHttpClient needs to own auth cookies by calling login(email, password) before
@@ -55,7 +47,7 @@ class KeyManager
      */
     fun createKey(client: OkHttpClient): Key { return createKey(client, listOf(ip)) }
     fun createKey(client: OkHttpClient, ips: List<String>): Key {
-        val keyCreation = getKeyCreation(ips)
+        val keyCreation = KeyCreation(cidrRanges = ips)
         val body = getRequestBody(keyCreation)
         val req = Request.Builder().url("$KEY_API_URL/create").post(body).build()
 
