@@ -5,7 +5,8 @@ import com.lycoon.clashapi.models.player.enums.Role
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ClanMember(
+data class ClanMember
+(
     val league: League? = null,
     val tag: String? = null,
     val name: String? = null,

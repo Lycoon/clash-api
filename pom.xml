@@ -5,7 +5,7 @@
 
   <groupId>io.github.lycoon</groupId>
   <artifactId>clash-api</artifactId>
-  <version>5.0.0</version>
+  <version>5.1.0</version>
 
   <!-- Project metadata -->
   <name>${project.groupId}:${project.artifactId}</name>
@@ -62,7 +62,7 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-      <version>4.10.0</version>
+      <version>5.0.0-alpha.11</version>
     </dependency>
 
     <dependency>
@@ -71,7 +71,6 @@
       <version>4.13.2</version>
     </dependency>
   </dependencies>
-
 
   <build>
     <plugins>

@@ -5,7 +5,8 @@ import com.lycoon.clashapi.models.common.Location
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ClanRanking(
+data class ClanRanking
+(
     val clanPoints: Int = 0,
     val clanLevel: Int = 0,
     val location: Location? = null,

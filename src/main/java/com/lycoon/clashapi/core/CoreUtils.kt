@@ -3,13 +3,19 @@ package com.lycoon.clashapi.core
 import com.lycoon.clashapi.core.exceptions.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 
 object CoreUtils {
-    const val URL = "https://api.clashofclans.com/"
+    const val JSON_CONTENT_TYPE = "application/json; charset=utf-8"
+    const val API_URL = "https://api.clashofclans.com/"
     const val API_VERSION = "v1"
+
     val json = Json {
         ignoreUnknownKeys = true
         isLenient = true
@@ -17,22 +23,14 @@ object CoreUtils {
         prettyPrint = true
     }
 
-    @Throws(ClashAPIException::class)
-    fun checkResponse(res: Response): Response {
-        if (res.isSuccessful) return res
-        when (res.code) {
-            400 -> throw BadRequestException()
-            403 -> throw AuthException()
-            404 -> throw NotFoundException()
-            429 -> throw RateLimitException()
-            503 -> throw MaintenanceException()
-            else -> throw UnknownException()
-        }
+    @Throws(IOException::class)
+    inline fun <reified T> deserialize(obj: String): T {
+        return json.decodeFromString(obj)
     }
 
     @Throws(IOException::class)
-    inline fun <reified T> deserialize(res: Response): T {
-        return json.decodeFromString(res.body?.string() ?: "")
+    inline fun <reified T> serialize(obj: T): String {
+        return json.encodeToString<T>(obj)
     }
 
     /*
@@ -53,5 +51,26 @@ object CoreUtils {
      */
     fun formatTag(tag: String): String{
         return if (tag.startsWith("#")) tag.replace("#", "%23") else "%23$tag"
+    }
+
+    /*
+     * Prepares a RequestBody from a data class
+     */
+    inline fun <reified T> getRequestBody(obj: T): RequestBody {
+        val body = serialize(obj)
+        return body.toRequestBody(JSON_CONTENT_TYPE.toMediaTypeOrNull())
+    }
+
+    @Throws(ClashAPIException::class)
+    fun checkResponse(res: Response): Response {
+        if (res.isSuccessful) return res
+        when (res.code) {
+            400 -> throw BadRequestException()
+            403 -> throw AuthException()
+            404 -> throw NotFoundException()
+            429 -> throw RateLimitException()
+            503 -> throw MaintenanceException()
+            else -> throw UnknownException()
+        }
     }
 }
