@@ -24,8 +24,8 @@ object CoreUtils {
     }
 
     @Throws(IOException::class)
-    inline fun <reified T> deserialize(res: Response): T {
-        return json.decodeFromString(res.body?.string() ?: "")
+    inline fun <reified T> deserialize(obj: String): T {
+        return json.decodeFromString(obj)
     }
 
     @Throws(IOException::class)

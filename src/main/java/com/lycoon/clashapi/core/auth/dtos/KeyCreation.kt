@@ -8,5 +8,5 @@ data class KeyCreation
     val name: String,
     val description: String,
     val cidrRanges: List<String>,
-    val scopes: List<String> = listOf("clash")
+    val scopes: List<String>? = null
 )

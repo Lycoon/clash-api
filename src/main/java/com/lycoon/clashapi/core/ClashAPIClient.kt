@@ -9,6 +9,8 @@ import com.lycoon.clashapi.core.auth.TokenList
 import com.lycoon.clashapi.core.exceptions.ClashAPIException
 import okhttp3.*
 import java.io.IOException
+import java.util.logging.Level
+import java.util.logging.Logger
 
 abstract class ClashAPIClient
 {
@@ -19,8 +21,11 @@ abstract class ClashAPIClient
         val authManager = AuthManager(client, email, password)
         val keyManager = KeyManager()
 
-        val token = keyManager.createKey(client);
-        this.tokens = TokenList(token)
+        val validTokens = keyManager.getValidTokens(client)
+        if (validTokens.isEmpty())
+            this.tokens = TokenList(keyManager.createKey(client).token)
+        else
+            this.tokens = TokenList(validTokens)
     }
 
     private val client: OkHttpClient = OkHttpClient.Builder().cookieJar(APICookieJar()).build()

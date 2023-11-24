@@ -19,7 +19,13 @@ class AuthManager(client: OkHttpClient, email: String, password: String) {
         val req = Request.Builder().url("$DEVELOPER_API_URL/login").post(body).build()
 
         val res = client.newCall(req).execute()
-        if (res.code == 403) throw AuthException()
+        if (res.code == 403)
+        {
+            res.body.close()
+            throw AuthException()
+        }
+
+        res.body.close()
     }
 
     init {
