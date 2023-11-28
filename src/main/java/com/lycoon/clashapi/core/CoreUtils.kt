@@ -13,6 +13,8 @@ import java.io.IOException
 
 object CoreUtils {
     const val JSON_CONTENT_TYPE = "application/json; charset=utf-8"
+    const val DEVELOPER_API_URL = "https://developer.clashofclans.com/api"
+
     const val API_URL = "https://api.clashofclans.com/"
     const val API_VERSION = "v1"
 

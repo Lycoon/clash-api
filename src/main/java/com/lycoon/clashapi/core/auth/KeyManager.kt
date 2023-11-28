@@ -1,5 +1,6 @@
 package com.lycoon.clashapi.core.auth
 
+import com.lycoon.clashapi.core.CoreUtils.DEVELOPER_API_URL
 import com.lycoon.clashapi.core.CoreUtils.deserialize
 import com.lycoon.clashapi.core.CoreUtils.getRequestBody
 import com.lycoon.clashapi.core.auth.dtos.*
@@ -12,7 +13,6 @@ import java.net.URL
 class KeyManager
 {
     val IP_CHECKER_URL = "http://checkip.amazonaws.com"
-    val KEY_API_URL = "https://developer.clashofclans.com/api/apikey"
     val EMPTY_BODY = "".toRequestBody(null)
 
     private val ip: String = getIP()
@@ -28,7 +28,7 @@ class KeyManager
      * @return List of keys
      */
     private fun fetchKeys(client: OkHttpClient): List<Key> {
-        val req = Request.Builder().url("$KEY_API_URL/list").post(EMPTY_BODY).build()
+        val req = Request.Builder().url("$DEVELOPER_API_URL/apikey/list").post(EMPTY_BODY).build()
 
         val res = client.newCall(req).execute()
         if (!res.isSuccessful) {
@@ -49,7 +49,7 @@ class KeyManager
     fun createKey(client: OkHttpClient, ips: List<String>): Key {
         val keyCreation = KeyCreation(cidrRanges = ips)
         val body = getRequestBody(keyCreation)
-        val req = Request.Builder().url("$KEY_API_URL/create").post(body).build()
+        val req = Request.Builder().url("$DEVELOPER_API_URL/apikey/create").post(body).build()
 
         val res = client.newCall(req).execute()
         if (!res.isSuccessful) {
@@ -69,7 +69,7 @@ class KeyManager
     fun deleteKey(client: OkHttpClient, key: String)
     {
         val body = getRequestBody(KeyDeletion(key))
-        val req = Request.Builder().url("$KEY_API_URL/revoke").post(body).build()
+        val req = Request.Builder().url("$DEVELOPER_API_URL/apikey/revoke").post(body).build()
         client.newCall(req).execute()
     }
 
@@ -78,6 +78,6 @@ class KeyManager
      */
     fun getValidTokens(client: OkHttpClient): List<String> { return getValidTokens(listOf(ip), fetchKeys(client)) }
     fun getValidTokens(ips: List<String>, keys: List<Key>): List<String> {
-        return keys.filter{ it.ips.contains(ip) }.map{ it.token }
+        return keys.filter{ it.ips.contains(ip) }.map{ it.token } // TODO: Check for given IPs and not only the current IP
     }
 }
