@@ -11,6 +11,7 @@ data class ClanMember
     val tag: String? = null,
     val name: String? = null,
     val role: Role,
+    val townHallLevel: Int = 0,
     val expLevel: Int = 0,
     val clanRank: Int = 0,
     val previousClanRank: Int = 0,
