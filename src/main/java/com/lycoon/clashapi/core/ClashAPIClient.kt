@@ -8,6 +8,7 @@ import com.lycoon.clashapi.core.auth.KeyManager
 import com.lycoon.clashapi.core.auth.TokenList
 import com.lycoon.clashapi.core.exceptions.ClashAPIException
 import okhttp3.*
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -29,6 +30,7 @@ abstract class ClashAPIClient
     }
 
     private val client: OkHttpClient = OkHttpClient.Builder().cookieJar(APICookieJar()).build()
+    private val log: org.slf4j.Logger = LoggerFactory.getLogger(ClashAPIClient::class.java)
     private val tokens: TokenList
 
     private fun getBaseAPIRequest(suffix: String, queryParamsBuilder: QueryParamsBuilder? = null): Request.Builder
@@ -46,6 +48,9 @@ abstract class ClashAPIClient
     {
         val req = getBaseAPIRequest(url, queryParamsBuilder).build()
         val res = client.newCall(req).execute()
+
+        log.debug("Got response: {}", res)
+
         return CoreUtils.checkResponse(res)
     }
 
@@ -54,6 +59,9 @@ abstract class ClashAPIClient
     {
         val req = getBaseAPIRequest(url).post(body).build()
         val res = client.newCall(req).execute()
+
+        log.debug("Got response: {}", res)
+
         return CoreUtils.checkResponse(res)
     }
 }
