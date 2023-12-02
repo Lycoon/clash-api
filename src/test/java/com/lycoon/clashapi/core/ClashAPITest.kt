@@ -1,16 +1,19 @@
-import com.lycoon.clashapi.core.ClanQueryParamsBuilder
-import junit.framework.TestCase
-import com.lycoon.clashapi.core.ClashAPI
+package com.lycoon.clashapi.core
+
+import com.lycoon.clashapi.core.exceptions.NotFoundException
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.FileInputStream
 import java.io.IOException
-import com.lycoon.clashapi.core.exceptions.NotFoundException
 import java.util.*
 
 const val CLAN_TAG = "UPCU2098"
 const val CONFIG = "tokens.properties"
 const val PLAYER_TAG = "PGYR0PR"
 
-class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
+internal class ClashAPITest() {
     private val clashAPI: ClashAPI
 
     init {
@@ -24,128 +27,141 @@ class ClashAPITest(playerTestMethod: String?) : TestCase(playerTestMethod) {
         clashAPI = ClashAPI(tokens.getProperty("email"), tokens.getProperty("password"))
     }
 
-    /*fun testWarlog() {
+    @Test
+    internal fun testWarlog() {
         val warlog = clashAPI.getWarlog(CLAN_TAG)
         assertNotNull(warlog)
-    }*/
+    }
 
-    fun testClanMembers() {
+    @Test
+    internal fun testClanMembers() {
         val clanMembers = clashAPI.getClanMembers(CLAN_TAG)
         assertNotNull(clanMembers)
     }
 
-    fun testLeague() {
+    @Test
+    internal fun testLeague() {
         val league = clashAPI.getLeague("29000000")
         assertNotNull(league)
     }
 
-    fun testLeagues() {
+    @Test
+    internal fun testLeagues() {
         val leagues = clashAPI.getLeagues()
         assertNotNull(leagues)
     }
 
-    fun testLocation() {
+    @Test
+    internal fun testLocation() {
         val location = clashAPI.getLocation("32000000")
         assertNotNull(location)
     }
 
-    fun testLocations() {
+    @Test
+    internal fun testLocations() {
         val locations = clashAPI.getLocations()
         assertNotNull(locations)
     }
 
-    /*fun testWarLeague() {
+    @Test
+    internal fun testWarLeague() {
         val warLeague = clashAPI.getWarLeague("48000000")
         assertNotNull(warLeague)
     }
 
-    fun testWarLeagues() {
+    @Test
+    internal fun testWarLeagues() {
         val warLeagues = clashAPI.getWarLeagues()
         assertNotNull(warLeagues)
-    }*/
+    }
 
-    fun testPlayerLabels() {
+    @Test
+    internal fun testPlayerLabels() {
         val playerLabels = clashAPI.getPlayerLabels()
         assertNotNull(playerLabels)
     }
 
-    fun testClanLabels() {
+    @Test
+    internal fun testClanLabels() {
         val clanLabels = clashAPI.getClanLabels()
         assertNotNull(clanLabels)
     }
 
-    /*fun testWarLeagueGroup() {
-        val warLeagueGroup = clashAPI.getWarLeagueGroup("#C0GJPLJG")
-        assertNotNull(warLeagueGroup)
-        print(warLeagueGroup.toString())
+    @Test
+    internal fun testWarLeagueGroup() {
+        try {
+            val warLeagueGroup = clashAPI.getWarLeagueGroup(CLAN_TAG)
+            assertNotNull(warLeagueGroup)
+        } catch (ex: NotFoundException) {
+            // Do nothing
+            // This test will fail if the clan is not in a war league
+        }
     }
 
-    fun testWarLeagueWar() {
+    @Test
+    internal fun testWarLeagueWar() {
         val warLeagueWar = clashAPI.getWarLeagueWar("#0")
         assertNotNull(warLeagueWar)
-        print(warLeagueWar.toString())
     }
 
-    fun testClanWar() {
+    @Test
+    internal fun testClanWar() {
         val clanWar = clashAPI.getCurrentWar("#C0GJPLJG")
         assertNotNull(clanWar)
-        print(clanWar.toString())
-    }*/
+    }
 
-    fun testPlayerWithoutSharp() {
+    @Test
+    internal fun testPlayerWithoutSharp() {
         val player = clashAPI.getPlayer(PLAYER_TAG)
         assertNotNull(player)
-        assertEquals(player.name, "Bowwn")
-        assertEquals(player.tag, "#$PLAYER_TAG")
+        assertEquals("Bowwn", player.name)
+        assertEquals("#$PLAYER_TAG", player.tag)
     }
 
-    fun testClanWithoutSharp() {
+    @Test
+    internal fun testClanWithoutSharp() {
         val clan = clashAPI.getClan(CLAN_TAG)
         assertNotNull(clan)
-        assertEquals(clan.name, "Amnésia")
-        assertEquals(clan.tag, "#$CLAN_TAG")
+        assertEquals("Amnésia", clan.name)
+        assertEquals("#$CLAN_TAG", clan.tag)
     }
 
-    fun testPlayerWithSharp() {
+    @Test
+    internal fun testPlayerWithSharp() {
         val player = clashAPI.getPlayer("#$PLAYER_TAG")
         assertNotNull(player)
-        assertEquals(player.name, "Bowwn")
-        assertEquals(player.tag, "#$PLAYER_TAG")
+        assertEquals("Bowwn", player.name)
+        assertEquals("#$PLAYER_TAG", player.tag)
     }
 
-    fun testNewPlayer() {
+    @Test
+    internal fun testNewPlayer() {
         val player = clashAPI.getPlayer("#GL2GLGLYR")
         assertNotNull(player)
     }
 
-    fun testClanWithSharp() {
+    @Test
+    internal fun testClanWithSharp() {
         val clan = clashAPI.getClan("#$CLAN_TAG")
         assertNotNull(clan)
-        assertEquals(clan.name, "Amnésia")
-        assertEquals(clan.tag, "#$CLAN_TAG")
+        assertEquals("Amnésia", clan.name)
+        assertEquals("#$CLAN_TAG", clan.tag)
     }
 
-    fun testClanSearch() {
+    @Test
+    internal fun testClanSearch() {
         val query = ClanQueryParamsBuilder(name = "toto");
         val clans = clashAPI.getClans(query);
         assertNotNull(clans)
     }
 
-    fun testPlayer404() {
-        try {
-            clashAPI.getPlayer("404")
-        } catch (e: NotFoundException) {
-            return
-        }
-        fail()
+    @Test
+    internal fun testPlayer404() {
+        assertThrows<NotFoundException> { clashAPI.getPlayer("404") }
     }
 
-    fun testClan404() {
-        try {
-            clashAPI.getClan("404")
-        } catch (e: NotFoundException) {
-            return
-        }
-        fail()
+    @Test
+    internal fun testClan404() {
+        assertThrows<NotFoundException> { clashAPI.getClan("404") }
     }
 }
