@@ -11,5 +11,5 @@ data class WarlogEntry
     val attacksPerMember: Int = 0,
     val opponent: WarlogClan? = null,
     val endTime: String? = null,
-    val result: WarResult
+    val result: WarResult? = null,
 )
