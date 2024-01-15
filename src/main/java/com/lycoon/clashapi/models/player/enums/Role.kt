@@ -10,5 +10,5 @@ enum class Role
     @SerialName("member") MEMBER,
     @SerialName("leader") LEADER,
     @SerialName("admin") ADMIN,
-    @SerialName("coleader") COLEADER
+    @SerialName("coLeader") COLEADER
 }
