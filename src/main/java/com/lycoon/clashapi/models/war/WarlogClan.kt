@@ -13,5 +13,5 @@ data class WarlogClan(
     val attacks: Int = 0, // if warleague result or opponent in warlog clan
     val stars: Int = 0,
     val expEarned: Int = 0, // if warleague result or opponent in warlog clan
-    val members: List<WarMember>
+    val members: List<WarMember> = emptyList()
 )
