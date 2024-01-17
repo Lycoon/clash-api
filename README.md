@@ -25,14 +25,14 @@ Inside your `<dependencies>` scope of your `pom.xml` file, add the following:
 <dependency>
     <groupId>io.github.lycoon</groupId>
     <artifactId>clash-api</artifactId>
-    <version>5.1.4</version>
+    <version>5.1.5</version>
 </dependency>
 ```
 
 ## Gradle
 Inside your `dependencies` scope of your `build.gradle` file, add the following:
 ```gradle
-implementation 'io.github.lycoon:clash-api:5.1.4'
+implementation 'io.github.lycoon:clash-api:5.1.5'
 ```
 
 # Quick start
