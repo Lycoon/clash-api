@@ -4,7 +4,8 @@ import com.lycoon.clashapi.models.common.BadgeUrls
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WarlogClan(
+data class WarlogClan
+(
     val destructionPercentage: Float = 0f,
     val tag: String? = null, // if warleague result
     val name: String? = null, // if warleague result

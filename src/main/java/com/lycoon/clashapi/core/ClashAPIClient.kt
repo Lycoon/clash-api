@@ -10,8 +10,6 @@ import com.lycoon.clashapi.core.exceptions.ClashAPIException
 import okhttp3.*
 import org.slf4j.LoggerFactory
 import java.io.IOException
-import java.util.logging.Level
-import java.util.logging.Logger
 
 abstract class ClashAPIClient
 {

@@ -3,7 +3,8 @@ package com.lycoon.clashapi.models.war
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WarAttack(
+data class WarAttack
+(
     val order: Int = 0,
     val attackerTag: String? = null,
     val defenderTag: String? = null,

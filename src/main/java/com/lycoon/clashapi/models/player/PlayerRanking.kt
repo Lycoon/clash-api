@@ -4,7 +4,8 @@ import com.lycoon.clashapi.models.league.League
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlayerRanking(
+data class PlayerRanking
+(
     val league: League? = null,
     val clan: PlayerRankingClan? = null,
     val attackWins: Int = 0,
