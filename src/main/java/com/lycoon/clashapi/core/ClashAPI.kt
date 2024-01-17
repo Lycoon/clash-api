@@ -6,6 +6,7 @@ import com.lycoon.clashapi.core.CoreUtils.getRequestBody
 import com.lycoon.clashapi.core.CoreUtils.unwrapList
 import com.lycoon.clashapi.core.auth.dtos.TokenValidation
 import com.lycoon.clashapi.core.auth.dtos.TokenValidationResponse
+import com.lycoon.clashapi.core.exceptions.ClashAPIException
 import com.lycoon.clashapi.core.interfaces.*
 import com.lycoon.clashapi.models.capital.CapitalRaidSeason
 import com.lycoon.clashapi.models.capital.CapitalRanking
@@ -22,6 +23,7 @@ import com.lycoon.clashapi.models.warleague.WarLeague
 import com.lycoon.clashapi.models.warleague.WarLeagueGroup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.IOException
 
 /**
  * Create an instance of this class to start using the API.<br></br>
@@ -39,6 +41,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||                Clans API                 ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getWarLeagueGroup(clanTag: String): WarLeagueGroup
     {
         log.trace("Getting war league group for clan {}", clanTag)
@@ -47,6 +50,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getWarLeagueWar(warTag: String): War
     {
         log.trace("Getting war league war {}", warTag)
@@ -55,6 +59,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getWarlog(clanTag: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<WarlogEntry>
     {
         log.trace("Getting war log for clan {} with filter {}", clanTag, queryParamsBuilder)
@@ -63,6 +68,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClans(queryParamsBuilder: ClanQueryParamsBuilder?): List<Clan>
     {
         log.trace("Getting clans with filter {}", queryParamsBuilder)
@@ -70,6 +76,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getCurrentWar(clanTag: String): War
     {
         log.trace("Getting current war for clan {}", clanTag)
@@ -78,6 +85,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClan(clanTag: String): Clan
     {
         log.trace("Getting clan {}", clanTag)
@@ -86,6 +94,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClanMembers(clanTag: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<ClanMember>
     {
         log.trace("Getting clan members for clan {} with filter {}", clanTag, queryParamsBuilder)
@@ -94,6 +103,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getCapitalRaidSeasons(clanTag: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<CapitalRaidSeason>
     {
         log.trace("Getting capital raid seasons for clan {} with filter {}", clanTag, queryParamsBuilder)
@@ -106,6 +116,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||                Player API                ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getPlayer(playerTag: String): Player
     {
         log.trace("Getting player {}", playerTag)
@@ -114,6 +125,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun isVerifiedPlayer(playerTag: String, token: String): Boolean
     {
         log.trace("Verifying player {} with token {}", playerTag, token)
@@ -126,6 +138,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||                League API                ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getCapitalLeagues(queryParamsBuilder: SimpleQueryParamsBuilder?): List<CapitalLeague>
     {
         log.trace("Getting capital leagues with filter {}", queryParamsBuilder)
@@ -133,6 +146,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLeagues(queryParamsBuilder: SimpleQueryParamsBuilder?): List<League>
     {
         log.trace("Getting leagues with filter {}", queryParamsBuilder)
@@ -140,6 +154,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLeagueSeasonRankings(
             leagueId: String,
             seasonId: String,
@@ -150,6 +165,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getCapitalLeague(leagueId: String): CapitalLeague
     {
         log.trace("Getting capital league {}", leagueId)
@@ -157,6 +173,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getBuilderBaseLeague(leagueId: String): BuilderBaseLeague
     {
         log.trace("Getting builder base league {}", leagueId)
@@ -164,6 +181,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getBuilderBaseLeagues(queryParamsBuilder: SimpleQueryParamsBuilder?): List<BuilderBaseLeague>
     {
         log.trace("Getting builder base leagues with filter {}", queryParamsBuilder)
@@ -171,6 +189,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLeague(leagueId: String): League
     {
         log.trace("Getting league {}", leagueId)
@@ -178,6 +197,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLeagueSeasons(leagueId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<LeagueSeason>
     {
         log.trace("Getting league seasons for league {} with filter {}", leagueId, queryParamsBuilder)
@@ -185,6 +205,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getWarLeague(leagueId: String): WarLeague
     {
         log.trace("Getting war league {}", leagueId)
@@ -192,6 +213,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return deserialize(res.body.string())
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getWarLeagues(queryParamsBuilder: SimpleQueryParamsBuilder?): List<WarLeague>
     {
         log.trace("Getting war leagues with filter {}", queryParamsBuilder)
@@ -203,6 +225,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||               Location API               ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClanRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<ClanRanking>
     {
         log.trace("Getting clan rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -210,6 +233,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getPlayerRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<PlayerRanking>
     {
         log.trace("Getting player rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -217,6 +241,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClanBuilderBaseRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<ClanBuilderBaseRanking>
     {
         log.trace("Getting clan builder base rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -225,6 +250,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     }
 
     @Deprecated("Use getClanBuilderBaseRankings instead")
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClanVersusRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<ClanBuilderBaseRanking>
     {
         log.trace("Getting clan versus rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -232,6 +258,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getPlayerBuilderBaseRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<PlayerBuilderBaseRanking>
     {
         log.trace("Getting player builder base rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -240,6 +267,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     }
 
     @Deprecated("Use getPlayerBuilderBaseRankings instead")
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getPlayerVersusRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<PlayerBuilderBaseRanking>
     {
         log.trace("Getting player versus rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -247,6 +275,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLocations(queryParamsBuilder: SimpleQueryParamsBuilder?): List<Location>
     {
         log.trace("Getting locations with filter {}", queryParamsBuilder)
@@ -254,6 +283,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getCapitalRankings(locationId: String, queryParamsBuilder: SimpleQueryParamsBuilder?): List<CapitalRanking>
     {
         log.trace("Getting capital rankings for location {} with filter {}", locationId, queryParamsBuilder)
@@ -261,6 +291,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getLocation(locationId: String): Location
     {
         log.trace("Getting location {}", locationId)
@@ -272,6 +303,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||               GoldPass API               ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getGoldPass(): GoldPassSeason
     {
         log.trace("Getting gold pass")
@@ -283,6 +315,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
     // ||                 Label API                ||
     // ##############################################
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getPlayerLabels(queryParamsBuilder: SimpleQueryParamsBuilder?): List<Label>
     {
         log.trace("Getting player labels with filter {}", queryParamsBuilder)
@@ -290,6 +323,7 @@ class ClashAPI : ClashAPIClient, IClashAPI
         return unwrapList(deserialize(res.body.string()))
     }
 
+    @Throws(IOException::class, ClashAPIException::class)
     override fun getClanLabels(queryParamsBuilder: SimpleQueryParamsBuilder?): List<Label>
     {
         log.trace("Getting clan labels with filter {}", queryParamsBuilder)

@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 
 typealias Spell = Troop
 typealias Hero = Troop
+typealias Equipment = Troop
 
 @Serializable
 data class Player
@@ -35,6 +36,7 @@ data class Player
 
     val troops: List<Troop>,
     val heroes: List<Hero>,
+    val heroEquipment: List<Equipment>,
     val spells: List<Spell>,
 
     val bestTrophies: Int = 0,
